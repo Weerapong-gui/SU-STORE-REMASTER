@@ -25,12 +25,9 @@ server/tests/
 
 # Docs / local config
 *.md
-render.yaml
-vercel.json
 
 # Deploy scripts (run on host, not inside container)
 deploy.sh
-deploy-api.sh
 
 # Env examples (actual .env loaded via docker-compose at runtime)
 .env.example

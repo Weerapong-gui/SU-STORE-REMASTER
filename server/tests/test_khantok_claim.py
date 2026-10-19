@@ -10,7 +10,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "server"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 # Stub out OCR module so order_api imports cleanly even without Tesseract
 sys.modules.setdefault("ocr", MagicMock())

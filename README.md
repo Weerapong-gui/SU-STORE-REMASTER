@@ -28,10 +28,7 @@ npm test
 npx tsc --noEmit && npm run lint
 
 python3 -m pytest server/tests/
-python3 -m pytest tests/
 ```
-
-pytest ต้องรันแยกสองรอบ เพราะทั้งสองโฟลเดอร์ชื่อ package `tests` เหมือนกัน รวมกันแล้วจะชน
 
 ## Deploy
 
@@ -66,5 +63,3 @@ backup DB ให้ใช้ `sqlite3 orders.db ".backup ..."` ห้าม `cp`
 ## อ่านเพิ่ม
 
 รายละเอียดโครงสร้าง server, tunnel และข้อควรระวังเวลาแก้โค้ดอยู่ใน `CLAUDE.md` กับ `server/CLAUDE.md`
-
-`render.yaml` กับ `docker-compose.order-api.yml` เป็นของเก่าตอนที่เคยคิดจะย้ายไป Render ตอนนี้ไม่ได้ใช้

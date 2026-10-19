@@ -49,7 +49,7 @@ jobs:
         run: pip install pytest ruff==0.16.10
 
       - name: Lint (ruff, rules in ruff.toml)
-        run: ruff check server tests
+        run: ruff check server
 
       - name: Run pytest
         # order_api.py creates its data dirs at import time; point them at a writable
@@ -59,8 +59,4 @@ jobs:
           ORDER_API_SLIPS_DIR: /tmp/su-order-api/slips
           ORDER_API_SLIDES_DIR: /tmp/su-order-api/slides
           ORDER_API_ASSETS_DIR: /tmp/su-order-api/display2_assets
-        # แยกสองคำสั่ง: server/tests กับ tests ต่างก็เป็น package ชื่อ "tests"
-        # รวมใน invocation เดียวแล้ว pytest collect ชนกัน
-        run: |
-          python3 -m pytest server/tests/ -v
-          python3 -m pytest tests/ -v
+        run: python3 -m pytest server/tests/ -v
