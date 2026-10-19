@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getRateLimitKey, isRateLimited } from "@/lib/rateLimit";
-import { ORDER_API_BASE } from "@/lib/orderApi";
+import { ORDER_API_BASE } from "@/lib/api/orderApi";
 
 const REMOTE_ORDER_API_TOKEN = process.env.ORDER_API_TOKEN ?? "";
 const RATE_LIMIT_MAX = 5;

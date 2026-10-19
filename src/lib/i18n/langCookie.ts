@@ -1,4 +1,4 @@
-import { LANG_COOKIE, LANG_COOKIE_MAX_AGE, parseLang, type Lang } from "@/lib/locale";
+import { LANG_COOKIE, LANG_COOKIE_MAX_AGE, parseLang, type Lang } from "@/lib/i18n/locale";
 
 // Browser-only. Not httpOnly on purpose: the client writes it when the visitor picks a
 // language, and the middleware reads it to choose between "/..." and "/th/...".

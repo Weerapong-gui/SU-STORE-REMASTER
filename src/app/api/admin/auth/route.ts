@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ADMIN_COOKIE } from "@/lib/adminAuth";
+import { ADMIN_COOKIE } from "@/lib/api/adminAuth";
 import { getRateLimitKey, isRateLimited } from "@/lib/rateLimit";
-import { ORDER_API_BASE } from "@/lib/orderApi";
+import { ORDER_API_BASE } from "@/lib/api/orderApi";
 
 // Staff sign in with their admin_users username/password; the order-api returns a
 // per-user token which we keep in an httpOnly cookie as the Authorization header value.

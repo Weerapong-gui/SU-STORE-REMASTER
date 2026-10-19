@@ -1,11 +1,11 @@
 "use client";
 
-import { BuyButton } from "@/components/BuyButton";
+import { BuyButton } from "@/components/store/BuyButton";
 import { Container } from "@/components/ui/Container";
 import { CategoryCovers } from "@/components/store/CategoryCovers";
 import { ProductGrid } from "@/components/store/ProductGrid";
-import { radiusVars } from "@/lib/radius";
-import { useStoreText } from "@/lib/storeI18n";
+import { radiusVars } from "@/lib/theme/radius";
+import { useStoreText } from "@/lib/i18n/storeI18n";
 import { cn } from "@/lib/utils";
 import type { HomeBlock, ResolvedHome } from "@/types/store";
 import { HeroSlider } from "./HeroSlider";

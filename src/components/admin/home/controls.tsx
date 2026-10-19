@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import type { LucideIcon } from "lucide-react";
-import { adminFetch } from "@/lib/adminApi";
+import { adminFetch } from "@/lib/api/adminApi";
 import { Button, Field, inputClass, useToast } from "@/components/admin/ui";
 import type { StoreProduct } from "@/types/store";
 

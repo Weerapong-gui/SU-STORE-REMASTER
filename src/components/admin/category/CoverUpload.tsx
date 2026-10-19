@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { adminFetch } from "@/lib/adminApi";
+import { adminFetch } from "@/lib/api/adminApi";
 import { Button, useToast } from "@/components/admin/ui";
 
 // Cover image picker for a category. The upload only returns a URL; it is saved with the form.

@@ -1,6 +1,6 @@
 "use client";
 
-import { useStoreText, type StoreText } from "@/lib/storeI18n";
+import { useStoreText, type StoreText } from "@/lib/i18n/storeI18n";
 
 // Client-side heading so server pages can show translated titles.
 export function SectionHeading({ textKey, className, level = 1 }: { textKey: keyof StoreText; className?: string; level?: 1 | 2 }) {

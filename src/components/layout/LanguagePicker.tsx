@@ -2,7 +2,7 @@
 
 import { Globe } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { localePath, stripLocale, type Lang } from "@/lib/locale";
+import { localePath, stripLocale, type Lang } from "@/lib/i18n/locale";
 import { useLang } from "@/lib/i18n";
 
 const LANGUAGE_LABELS: Record<Lang, string> = { en: "English", th: "ไทย" };

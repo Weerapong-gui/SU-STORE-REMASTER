@@ -6,7 +6,7 @@ import type { StoreProduct, StoreVariant } from "@/types/store";
 
 const replace = vi.fn();
 vi.mock("next/navigation", () => ({ useRouter: () => ({ replace, push: vi.fn() }) }));
-vi.mock("@/components/CartProvider", () => ({ MAX_ITEM_QUANTITY: 10, useCart: () => ({ addItem: vi.fn() }) }));
+vi.mock("@/components/store/CartProvider", () => ({ MAX_ITEM_QUANTITY: 10, useCart: () => ({ addItem: vi.fn() }) }));
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

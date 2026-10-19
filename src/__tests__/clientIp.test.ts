@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { clientIp } from "@/lib/clientIp";
+import { clientIp } from "@/lib/rateLimit/clientIp";
 
 const req = (headers: Record<string, string>) => new Request("http://x/", { headers });
 

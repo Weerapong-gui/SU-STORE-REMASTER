@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { adminFetch } from "@/lib/adminApi";
+import { adminFetch } from "@/lib/api/adminApi";
 import { useConfirm } from "@/components/admin/ConfirmDialog";
 import { Button, Card, Field, inputClass, useToast } from "@/components/admin/ui";
 import type { StoreSettings } from "@/types/store";

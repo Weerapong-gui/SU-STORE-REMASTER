@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useLocalized } from "@/lib/localized";
-import { useStoreText } from "@/lib/storeI18n";
+import { useLocalized } from "@/lib/i18n/localized";
+import { useStoreText } from "@/lib/i18n/storeI18n";
 import { useLocalePath } from "@/lib/i18n";
 import type { StoreCategory } from "@/types/store";
 import { Container } from "@/components/ui/Container";

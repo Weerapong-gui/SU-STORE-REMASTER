@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { orderPageHref, saveOrderToken } from "@/lib/orderTokens";
-import { useStoreText } from "@/lib/storeI18n";
+import { orderPageHref, saveOrderToken } from "@/lib/api/orderTokens";
+import { useStoreText } from "@/lib/i18n/storeI18n";
 import type { StoreOrder } from "@/types/store";
 import { useLocalePath } from "@/lib/i18n";
 

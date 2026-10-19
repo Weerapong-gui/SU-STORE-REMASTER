@@ -1,6 +1,6 @@
 "use client";
 
-import { productCard } from "@/lib/designCards";
+import { productCard } from "@/lib/store/designCards";
 import type { StoreProduct } from "@/types/store";
 import { ProductCardGrid } from "./ProductCardGrid";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { adminFetch } from "@/lib/adminApi";
+import { adminFetch } from "@/lib/api/adminApi";
 import { formatReceiptDate } from "@/lib/receipt/render";
 import { Button, Card, useToast } from "@/components/admin/ui";
 import type { IssuedReceipt, OrderStatus, StoreOrder, StoreReceipt } from "@/types/store";

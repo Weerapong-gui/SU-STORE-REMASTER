@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { ADMIN_COOKIE } from "@/lib/adminAuth";
+import { ADMIN_COOKIE } from "@/lib/api/adminAuth";
 
 const API = "http://order-api:10000";
 
@@ -8,7 +8,7 @@ const API = "http://order-api:10000";
 async function loadModule() {
   vi.resetModules();
   vi.stubEnv("ORDER_API_BASE_URL", API);
-  return import("@/lib/storePreview");
+  return import("@/lib/store/storePreview");
 }
 
 function request(cookie?: string) {

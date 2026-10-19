@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useStoreText } from "@/lib/storeI18n";
+import { useStoreText } from "@/lib/i18n/storeI18n";
 import { cn } from "@/lib/utils";
 import type { StoreProduct, StoreVariant } from "@/types/store";
 

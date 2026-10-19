@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { BuyButton } from "@/components/BuyButton";
+import { BuyButton } from "@/components/store/BuyButton";
 import { Container } from "@/components/ui/Container";
-import { useStoreText } from "@/lib/storeI18n";
+import { useStoreText } from "@/lib/i18n/storeI18n";
 import { cn } from "@/lib/utils";
 import type { HeroSlide } from "@/types/store";
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { localized, orderItemText, variantDisplayLabel } from "@/lib/localized";
+import { localized, orderItemText, variantDisplayLabel } from "@/lib/i18n/localized";
 
 describe("localized", () => {
   it("selects English and falls back to Thai", () => {

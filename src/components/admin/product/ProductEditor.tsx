@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { adminFetch } from "@/lib/adminApi";
+import { adminFetch } from "@/lib/api/adminApi";
 import { useConfirm } from "@/components/admin/ConfirmDialog";
 import { Badge, Button, Card, Field, inputClass, PRODUCT_STATUS_LABEL, useToast } from "@/components/admin/ui";
 import type { ProductStatus, StoreCategory, StoreMeta, StoreProduct } from "@/types/store";

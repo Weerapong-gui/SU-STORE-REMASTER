@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { accentVars, contrastWithWhite, DEFAULT_ACCENT } from "@/lib/accent";
+import { accentVars, contrastWithWhite, DEFAULT_ACCENT } from "@/lib/theme/accent";
 
 describe("accentVars", () => {
   it("returns RGB channels for the accent and derived shades", () => {

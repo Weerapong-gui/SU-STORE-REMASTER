@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import type { ProductCard } from "@/lib/designCards";
-import { formatPrice } from "@/lib/formatPrice";
-import { useLocalized } from "@/lib/localized";
-import { useSaleDate, useStoreText } from "@/lib/storeI18n";
+import type { ProductCard } from "@/lib/store/designCards";
+import { formatPrice } from "@/lib/store/formatPrice";
+import { useLocalized } from "@/lib/i18n/localized";
+import { useSaleDate, useStoreText } from "@/lib/i18n/storeI18n";
 import { cn } from "@/lib/utils";
 import { useLocalePath } from "@/lib/i18n";
 

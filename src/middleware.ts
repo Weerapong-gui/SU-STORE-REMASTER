@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ADMIN_COOKIE } from "@/lib/adminAuth";
-import { clientIp } from "@/lib/clientIp";
-import { ORDER_API_BASE } from "@/lib/orderApi";
-import { decideLocale, LANG_COOKIE, LANG_HEADER, type Lang, type LocaleDecision, PATH_HEADER, stripLocale } from "@/lib/locale";
-import { consume, type RateLimitStore } from "@/lib/rateLimitCore";
-import { adminCookie, isStaffSession, PREVIEW_ORDER_BLOCKED_MESSAGE, STORE_PREVIEW_HEADER, storeGate } from "@/lib/storePreview";
+import { ADMIN_COOKIE } from "@/lib/api/adminAuth";
+import { clientIp } from "@/lib/rateLimit/clientIp";
+import { ORDER_API_BASE } from "@/lib/api/orderApi";
+import { decideLocale, LANG_COOKIE, LANG_HEADER, type Lang, type LocaleDecision, PATH_HEADER, stripLocale } from "@/lib/i18n/locale";
+import { consume, type RateLimitStore } from "@/lib/rateLimit/rateLimitCore";
+import { adminCookie, isStaffSession, PREVIEW_ORDER_BLOCKED_MESSAGE, STORE_PREVIEW_HEADER, storeGate } from "@/lib/store/storePreview";
 import { setVisitorCookie, siteStatusQuery, visitorId } from "@/lib/visitorId";
 
 // ── Rate limiting (order creation / lookup) ───────────────────────────────────

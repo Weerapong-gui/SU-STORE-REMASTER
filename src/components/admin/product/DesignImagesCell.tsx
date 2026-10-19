@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { adminFetch } from "@/lib/adminApi";
+import { adminFetch } from "@/lib/api/adminApi";
 import { useToast } from "@/components/admin/ui";
 import { useConfirm } from "@/components/admin/ConfirmDialog";
 import { MAX_DESIGN_IMAGES, moveImage, removeImage } from "./designRows";

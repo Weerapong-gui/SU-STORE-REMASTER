@@ -1,8 +1,8 @@
-import { DEFAULT_ACCENT } from "@/lib/accent";
-import { DEFAULT_FONT } from "@/lib/fonts";
-import { DEFAULT_RADIUS } from "@/lib/radius";
+import { DEFAULT_ACCENT } from "@/lib/theme/accent";
+import { DEFAULT_FONT } from "@/lib/theme/fonts";
+import { DEFAULT_RADIUS } from "@/lib/theme/radius";
 import type { HomeLayout, ResolvedHome, StoreCategory, StoreMeta, StoreProduct } from "@/types/store";
-import { ORDER_API_BASE } from "@/lib/orderApi";
+import { ORDER_API_BASE } from "@/lib/api/orderApi";
 
 // Server-side reads of the public /v2 catalog (used by server components).
 

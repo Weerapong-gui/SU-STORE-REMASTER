@@ -3,7 +3,7 @@ import { CategoryCovers } from "@/components/store/CategoryCovers";
 import { CategoryStrip } from "@/components/store/CategoryStrip";
 import { ProductGrid } from "@/components/store/ProductGrid";
 import { SectionHeading } from "@/components/store/SectionHeading";
-import { getStoreCategories, getStoreProducts } from "@/lib/storeApi";
+import { getStoreCategories, getStoreProducts } from "@/lib/api/storeApi";
 
 export const dynamic = "force-dynamic";
 

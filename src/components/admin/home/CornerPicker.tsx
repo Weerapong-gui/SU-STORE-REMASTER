@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "@/components/admin/ui";
-import { radiusVars } from "@/lib/radius";
+import { radiusVars } from "@/lib/theme/radius";
 import { Segmented } from "./controls";
 
 const CORNER_PRESETS = [

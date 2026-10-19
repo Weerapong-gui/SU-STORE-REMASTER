@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useStorePreview } from "@/components/store/StorePreview";
 import { useLang } from "@/lib/i18n";
-import { localePath } from "@/lib/locale";
+import { localePath } from "@/lib/i18n/locale";
 
 type SiteStatus = {
   siteClosed?: boolean;

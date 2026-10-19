@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { ADMIN_COOKIE } from "@/lib/adminAuth";
-import { LANG_HEADER, PATH_HEADER } from "@/lib/locale";
+import { ADMIN_COOKIE } from "@/lib/api/adminAuth";
+import { LANG_HEADER, PATH_HEADER } from "@/lib/i18n/locale";
 import { forwarded, resetMiddlewareHarness, rewrittenTo, runMiddleware as run } from "./helpers/middlewareHarness";
 
 const locationOf = (res: Response) => new URL(res.headers.get("location") ?? "");

@@ -1,16 +1,16 @@
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { LegacyLangMigration } from "@/components/LegacyLangMigration";
+import { LegacyLangMigration } from "@/components/layout/LegacyLangMigration";
 import { StoreShell } from "@/components/store/StoreShell";
 import { LanguageProvider, useLang, useLocalePath } from "@/lib/i18n";
 import { assignLocation, replaceLocation } from "@/lib/navigate";
 
 vi.mock("@/lib/navigate", () => ({ assignLocation: vi.fn(), replaceLocation: vi.fn() }));
-vi.mock("@/components/Navbar", () => ({ Navbar: () => null }));
-vi.mock("@/components/Footer", () => ({ Footer: () => null }));
-vi.mock("@/components/ScheduleWarningBanner", () => ({ ScheduleWarningBanner: () => null }));
-vi.mock("@/components/CartProvider", () => ({
+vi.mock("@/components/layout/Navbar", () => ({ Navbar: () => null }));
+vi.mock("@/components/layout/Footer", () => ({ Footer: () => null }));
+vi.mock("@/components/layout/ScheduleWarningBanner", () => ({ ScheduleWarningBanner: () => null }));
+vi.mock("@/components/store/CartProvider", () => ({
   CartProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 

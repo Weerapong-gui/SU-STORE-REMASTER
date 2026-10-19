@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { ADMIN_COOKIE } from "@/lib/adminAuth";
-import { ORDER_API_BASE } from "@/lib/orderApi";
+import { ADMIN_COOKIE } from "@/lib/api/adminAuth";
+import { ORDER_API_BASE } from "@/lib/api/orderApi";
 
 export const dynamic = "force-dynamic";
 

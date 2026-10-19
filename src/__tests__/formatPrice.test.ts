@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { formatPrice } from "@/lib/formatPrice";
+import { formatPrice } from "@/lib/store/formatPrice";
 
 describe("formatPrice", () => {
   it("formats whole numbers in THB", () => {

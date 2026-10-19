@@ -1,5 +1,5 @@
 import { HomeBlocks } from "@/components/store/home/HomeBlocks";
-import { getStoreHome } from "@/lib/storeApi";
+import { getStoreHome } from "@/lib/api/storeApi";
 
 export const dynamic = "force-dynamic";
 

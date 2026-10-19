@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
-import { ADMIN_COOKIE } from "@/lib/adminAuth";
-import { ORDER_API_BASE } from "@/lib/orderApi";
+import { ADMIN_COOKIE } from "@/lib/api/adminAuth";
+import { ORDER_API_BASE } from "@/lib/api/orderApi";
 
 // While the store is closed, signed-in staff browse the storefront in a read-only
 // "preview" so they can check it before opening. The middleware sets this request header

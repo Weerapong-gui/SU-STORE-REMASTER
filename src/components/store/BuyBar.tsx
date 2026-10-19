@@ -1,6 +1,6 @@
 "use client";
 
-import { useStoreText } from "@/lib/storeI18n";
+import { useStoreText } from "@/lib/i18n/storeI18n";
 
 // Below `md` it is sticky to the bottom of the screen and, as the last item of the page content, rests above the footer instead of covering it. Inline from `md` up.
 export function BuyBar({ canOrder, disabled, notice, previewMessage, onBuy, onAdd }: {

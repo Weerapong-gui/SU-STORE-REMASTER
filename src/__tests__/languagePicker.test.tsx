@@ -1,7 +1,7 @@
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { LanguagePicker } from "@/components/LanguagePicker";
+import { LanguagePicker } from "@/components/layout/LanguagePicker";
 import { LanguageProvider } from "@/lib/i18n";
 import { assignLocation } from "@/lib/navigate";
 

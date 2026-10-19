@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { LegacyLangMigration } from "@/components/LegacyLangMigration";
+import { LegacyLangMigration } from "@/components/layout/LegacyLangMigration";
 import { StoreShell } from "@/components/store/StoreShell";
-import { localeAlternates } from "@/lib/locale";
-import { requestLang, requestPath } from "@/lib/requestLocale";
-import { STORE_PREVIEW_HEADER } from "@/lib/storePreview";
-import { getStoreMeta } from "@/lib/storeApi";
+import { localeAlternates } from "@/lib/i18n/locale";
+import { requestLang, requestPath } from "@/lib/i18n/requestLocale";
+import { STORE_PREVIEW_HEADER } from "@/lib/store/storePreview";
+import { getStoreMeta } from "@/lib/api/storeApi";
 
 export function generateMetadata(): Metadata {
   return { alternates: localeAlternates(requestLang(), requestPath()) };

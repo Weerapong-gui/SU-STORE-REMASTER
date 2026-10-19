@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
-import { SITE_URL } from "@/lib/locale";
-import { requestLang } from "@/lib/requestLocale";
+import { SITE_URL } from "@/lib/i18n/locale";
+import { requestLang } from "@/lib/i18n/requestLocale";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

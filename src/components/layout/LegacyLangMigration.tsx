@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { readLangCookie, writeLangCookie } from "@/lib/langCookie";
-import { legacyLangAction, stripLocale, switchLocalePath } from "@/lib/locale";
+import { readLangCookie, writeLangCookie } from "@/lib/i18n/langCookie";
+import { legacyLangAction, stripLocale, switchLocalePath } from "@/lib/i18n/locale";
 import { replaceLocation } from "@/lib/navigate";
 
 // Temporary migration: visitors who picked a language before it moved into the URL still

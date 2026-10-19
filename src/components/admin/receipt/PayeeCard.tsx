@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { adminFetch } from "@/lib/adminApi";
+import { adminFetch } from "@/lib/api/adminApi";
 import { Button, Card, Field, inputClass, useToast } from "@/components/admin/ui";
 import type { ReceiptSettings } from "@/types/store";
 import { CONTROL } from "./controls";

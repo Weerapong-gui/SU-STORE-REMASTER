@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "@/components/admin/ui";
-import { fontFamily, fontPreviewStylesheet, STORE_FONTS } from "@/lib/fonts";
+import { fontFamily, fontPreviewStylesheet, STORE_FONTS } from "@/lib/theme/fonts";
 
 const SAMPLE = "สวัสดี SU STORE ฿290";
 

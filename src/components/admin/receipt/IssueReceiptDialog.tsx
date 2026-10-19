@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button, Field, inputClass } from "@/components/admin/ui";
-import { SCHOOL_OPTIONS } from "@/lib/checkoutOptions";
+import { SCHOOL_OPTIONS } from "@/lib/store/checkoutOptions";
 import { useModalFocus } from "./useModalFocus";
 import type { ReceiptSnapshot } from "@/types/store";
 

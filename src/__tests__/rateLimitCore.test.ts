@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { RATE_LIMIT_WINDOW_MS, consume, type RateLimitStore } from "@/lib/rateLimitCore";
+import { RATE_LIMIT_WINDOW_MS, consume, type RateLimitStore } from "@/lib/rateLimit/rateLimitCore";
 
 describe("consume", () => {
   it("allows max requests per window, then limits", () => {

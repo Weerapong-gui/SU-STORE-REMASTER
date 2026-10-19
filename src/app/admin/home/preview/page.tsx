@@ -2,10 +2,10 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { HomeBlocks } from "@/components/store/home/HomeBlocks";
 import { StoreShell } from "@/components/store/StoreShell";
-import { ADMIN_COOKIE } from "@/lib/adminAuth";
-import { getStoreMeta } from "@/lib/storeApi";
+import { ADMIN_COOKIE } from "@/lib/api/adminAuth";
+import { getStoreMeta } from "@/lib/api/storeApi";
 import type { ResolvedHome } from "@/types/store";
-import { ORDER_API_BASE } from "@/lib/orderApi";
+import { ORDER_API_BASE } from "@/lib/api/orderApi";
 
 export const dynamic = "force-dynamic";
 

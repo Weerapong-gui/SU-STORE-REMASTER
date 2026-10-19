@@ -5,13 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, ShoppingBag, X } from "lucide-react";
-import { useCart } from "@/components/CartProvider";
+import { useCart } from "@/components/store/CartProvider";
 import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
 import { useLocalePath } from "@/lib/i18n";
-import { stripLocale } from "@/lib/locale";
-import { useStoreText } from "@/lib/storeI18n";
-import { isCategoryPath } from "@/lib/storePaths";
+import { stripLocale } from "@/lib/i18n/locale";
+import { useStoreText } from "@/lib/i18n/storeI18n";
+import { isCategoryPath } from "@/lib/store/storePaths";
 
 const navigationLinks = [
   { href: "/", label: "Home" },

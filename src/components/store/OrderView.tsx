@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { BankAccountCopyField } from "@/components/BankAccountCopyField";
+import { BankAccountCopyField } from "@/components/store/BankAccountCopyField";
 import { useLang, useLocalePath } from "@/lib/i18n";
-import { orderItemText } from "@/lib/localized";
-import { formatPrice } from "@/lib/formatPrice";
-import { getOrderToken, orderPageHref, saveOrderToken } from "@/lib/orderTokens";
-import { useStoreText } from "@/lib/storeI18n";
+import { orderItemText } from "@/lib/i18n/localized";
+import { formatPrice } from "@/lib/store/formatPrice";
+import { getOrderToken, orderPageHref, saveOrderToken } from "@/lib/api/orderTokens";
+import { useStoreText } from "@/lib/i18n/storeI18n";
 import { cn } from "@/lib/utils";
 import type { OrderStatus, PaymentAccount, StoreMeta, StoreOrder } from "@/types/store";
 

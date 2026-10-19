@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CategoryView } from "@/components/store/CategoryView";
-import { getStoreCategory } from "@/lib/storeApi";
+import { getStoreCategory } from "@/lib/api/storeApi";
 
 export const dynamic = "force-dynamic";
 

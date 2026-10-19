@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
-import { AdminApiError, adminFetch } from "@/lib/adminApi";
+import { AdminApiError, adminFetch } from "@/lib/api/adminApi";
 import { useConfirm } from "@/components/admin/ConfirmDialog";
 import { Button, useToast } from "@/components/admin/ui";
 import {

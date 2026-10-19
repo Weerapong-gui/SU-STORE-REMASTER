@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { adminFetch } from "@/lib/adminApi";
+import { adminFetch } from "@/lib/api/adminApi";
 import { RECEIPT_VIEWBOX } from "@/lib/receipt/editorMath";
 import { createCanvasMeasure } from "@/lib/receipt/measure";
 import { paginate } from "@/lib/receipt/paginate";

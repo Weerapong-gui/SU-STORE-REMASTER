@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { ADMIN_COOKIE } from "@/lib/adminAuth";
-import { STORE_PREVIEW_HEADER } from "@/lib/storePreview";
+import { ADMIN_COOKIE } from "@/lib/api/adminAuth";
+import { STORE_PREVIEW_HEADER } from "@/lib/store/storePreview";
 import { forwarded, resetMiddlewareHarness, rewrittenTo, runMiddleware, type RunOptions } from "./helpers/middlewareHarness";
 
 // Here `cookie` is the staff session value, not a raw Cookie header.

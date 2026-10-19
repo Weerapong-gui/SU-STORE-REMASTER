@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { cardMatches, designCards } from "@/lib/designCards";
-import { useStoreText } from "@/lib/storeI18n";
+import { cardMatches, designCards } from "@/lib/store/designCards";
+import { useStoreText } from "@/lib/i18n/storeI18n";
 import type { StoreCategory, StoreProduct } from "@/types/store";
 import { Container } from "@/components/ui/Container";
 import { CategoryHero } from "./CategoryHero";

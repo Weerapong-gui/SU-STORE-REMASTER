@@ -2,11 +2,11 @@
 
 import { createContext, useContext, type ReactNode } from "react";
 
-import { writeLangCookie } from "@/lib/langCookie";
-import { localePath, switchLocalePath, type Lang } from "@/lib/locale";
+import { writeLangCookie } from "@/lib/i18n/langCookie";
+import { localePath, switchLocalePath, type Lang } from "@/lib/i18n/locale";
 import { assignLocation } from "@/lib/navigate";
 
-export type { Lang } from "@/lib/locale";
+export type { Lang } from "@/lib/i18n/locale";
 
 export const translations = {
   en: {

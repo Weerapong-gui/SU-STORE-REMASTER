@@ -2,15 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { MAX_ITEM_QUANTITY, useCart } from "@/components/CartProvider";
+import { MAX_ITEM_QUANTITY, useCart } from "@/components/store/CartProvider";
 import { BuyBar } from "@/components/store/BuyBar";
 import { DesignPicker } from "@/components/store/DesignPicker";
 import { OptionButtons } from "@/components/store/OptionButtons";
 import { galleryImages, ProductGallery } from "@/components/store/ProductGallery";
 import { useStorePreview } from "@/components/store/StorePreview";
-import { formatPrice } from "@/lib/formatPrice";
-import { useLocalized, variantDisplayLabel } from "@/lib/localized";
-import { useSaleDate, useStoreText } from "@/lib/storeI18n";
+import { formatPrice } from "@/lib/store/formatPrice";
+import { useLocalized, variantDisplayLabel } from "@/lib/i18n/localized";
+import { useSaleDate, useStoreText } from "@/lib/i18n/storeI18n";
 import { cn } from "@/lib/utils";
 import type { StoreProduct, StoreVariant } from "@/types/store";
 import { useLocalePath } from "@/lib/i18n";

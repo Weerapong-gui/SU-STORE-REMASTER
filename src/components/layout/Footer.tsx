@@ -3,7 +3,7 @@
 import { Container } from "@/components/ui/Container";
 import { Instagram, Facebook } from "lucide-react";
 import { useLang } from "@/lib/i18n";
-import { LanguagePicker } from "@/components/LanguagePicker";
+import { LanguagePicker } from "@/components/layout/LanguagePicker";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();

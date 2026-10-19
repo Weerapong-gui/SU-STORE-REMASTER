@@ -11,13 +11,13 @@ const config: Config = {
         paper: "#ffffff",
         mist: "#f5f5f7",
         "surface-dark": "#1d1d1f",
-        // Store accent colour, set per-site from /admin/home (see src/lib/accent.ts).
+        // Store accent colour, set per-site from /admin/home (see src/lib/theme/accent.ts).
         "apple-blue": "rgb(var(--accent) / <alpha-value>)",
         "apple-blue-dark": "rgb(var(--accent-dark) / <alpha-value>)",
         "apple-blue-light": "rgb(var(--accent-light) / <alpha-value>)",
         "apple-blue-soft": "rgb(var(--accent-soft) / <alpha-value>)"
       },
-      // Store corner setting from /admin/home (see src/lib/radius.ts). Tailwind's default
+      // Store corner setting from /admin/home (see src/lib/theme/radius.ts). Tailwind's default
       // sizes times --radius-scale; outside the storefront the scale is 1.
       borderRadius: {
         sm: "calc(0.125rem * var(--radius-scale, 1))",

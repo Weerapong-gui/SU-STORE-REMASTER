@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isCategoryPath } from "@/lib/storePaths";
+import { isCategoryPath } from "@/lib/store/storePaths";
 
 describe("isCategoryPath", () => {
   it("matches category pages only", () => {

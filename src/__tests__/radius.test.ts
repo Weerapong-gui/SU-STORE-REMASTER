@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { clampRadius, DEFAULT_RADIUS, radiusVars } from "@/lib/radius";
+import { clampRadius, DEFAULT_RADIUS, radiusVars } from "@/lib/theme/radius";
 
 describe("radiusVars", () => {
   it("keeps the original design at 100", () => {

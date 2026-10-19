@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Eye } from "lucide-react";
-import { adminFetch, formatThaiDateTime } from "@/lib/adminApi";
+import { adminFetch, formatThaiDateTime } from "@/lib/api/adminApi";
 import { useConfirm } from "@/components/admin/ConfirmDialog";
 import { Button, useToast } from "@/components/admin/ui";
 import type { HomeAdminState, HomeLayout, StoreCategory, StoreProduct } from "@/types/store";

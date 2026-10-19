@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { adminFetch, formatBaht } from "@/lib/adminApi";
+import { adminFetch, formatBaht } from "@/lib/api/adminApi";
 import { Card, EmptyState, useToast } from "@/components/admin/ui";
 import type { Dashboard } from "@/types/store";
 

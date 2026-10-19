@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useLocalePath } from "@/lib/i18n";
-import { stripLocale } from "@/lib/locale";
+import { stripLocale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils";
 
 // Staff-entered button links may point outside the storefront routes.

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { ADMIN_COOKIE } from "@/lib/adminAuth";
+import { ADMIN_COOKIE } from "@/lib/api/adminAuth";
 import { loadMiddleware, resetMiddlewareHarness, rewrittenTo, runMiddleware } from "./helpers/middlewareHarness";
 
 // Next decodes the path before matching routes, so the middleware must judge the same decoded path.

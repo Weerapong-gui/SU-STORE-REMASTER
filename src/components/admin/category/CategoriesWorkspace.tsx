@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { adminFetch } from "@/lib/adminApi";
+import { adminFetch } from "@/lib/api/adminApi";
 import { EmptyState, useToast } from "@/components/admin/ui";
 import type { StoreCategory } from "@/types/store";
 import { CategoryEditor } from "./CategoryEditor";

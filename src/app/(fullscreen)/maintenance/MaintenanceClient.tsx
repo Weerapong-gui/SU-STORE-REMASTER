@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { localePath, stripLocale } from "@/lib/locale";
+import { localePath, stripLocale } from "@/lib/i18n/locale";
 
 type SiteStatus = {
   siteClosed?: boolean;

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { adminFetch, formatBaht, formatThaiDateTime } from "@/lib/adminApi";
+import { adminFetch, formatBaht, formatThaiDateTime } from "@/lib/api/adminApi";
 import { Badge, Button, EmptyState, inputClass, ORDER_STATUS_LABEL, useToast } from "@/components/admin/ui";
 import type { OrderStatus, StoreOrder } from "@/types/store";
 

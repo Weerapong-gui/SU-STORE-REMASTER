@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getRateLimitKey, isRateLimited } from "@/lib/rateLimit";
-import { ORDER_API_BASE } from "@/lib/orderApi";
+import { ORDER_API_BASE } from "@/lib/api/orderApi";
 
 // This proxy is unauthenticated and returns customer name/school by student code, so
 // throttle it to blunt PII enumeration over sequential/prefixed student codes.

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_FONT, findFont, fontFamily, fontPreviewStylesheet, fontStylesheet, STORE_FONTS } from "@/lib/fonts";
+import { DEFAULT_FONT, findFont, fontFamily, fontPreviewStylesheet, fontStylesheet, STORE_FONTS } from "@/lib/theme/fonts";
 
 describe("fonts", () => {
   it("falls back to the default font for unknown ids", () => {

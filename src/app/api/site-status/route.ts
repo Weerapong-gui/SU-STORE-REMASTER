@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ORDER_API_BASE } from "@/lib/orderApi";
+import { ORDER_API_BASE } from "@/lib/api/orderApi";
 import { siteStatusQuery } from "@/lib/visitorId";
 
 export const dynamic = "force-dynamic";

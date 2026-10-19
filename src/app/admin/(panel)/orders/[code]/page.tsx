@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { adminFetch, formatBaht, formatThaiDateTime } from "@/lib/adminApi";
+import { adminFetch, formatBaht, formatThaiDateTime } from "@/lib/api/adminApi";
 import { useConfirm } from "@/components/admin/ConfirmDialog";
 import { Badge, Button, Card, inputClass, ORDER_STATUS_LABEL, useToast } from "@/components/admin/ui";
 import { ReceiptPanel } from "@/components/admin/receipt/ReceiptPanel";

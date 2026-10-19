@@ -1,14 +1,14 @@
-import { CartProvider } from "@/components/CartProvider";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { ScheduleWarningBanner } from "@/components/ScheduleWarningBanner";
+import { CartProvider } from "@/components/store/CartProvider";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { ScheduleWarningBanner } from "@/components/layout/ScheduleWarningBanner";
 import { AnnouncementBar } from "@/components/store/AnnouncementBar";
 import { StorePreviewBar, StorePreviewProvider, type StorePreviewMode } from "@/components/store/StorePreview";
-import { accentVars, DEFAULT_ACCENT } from "@/lib/accent";
-import { DEFAULT_FONT, findFont, fontFamily, fontStylesheet } from "@/lib/fonts";
-import { DEFAULT_RADIUS, radiusVars } from "@/lib/radius";
+import { accentVars, DEFAULT_ACCENT } from "@/lib/theme/accent";
+import { DEFAULT_FONT, findFont, fontFamily, fontStylesheet } from "@/lib/theme/fonts";
+import { DEFAULT_RADIUS, radiusVars } from "@/lib/theme/radius";
 import { LanguageProvider } from "@/lib/i18n";
-import type { Lang } from "@/lib/locale";
+import type { Lang } from "@/lib/i18n/locale";
 
 // Shared by the storefront and the /admin/home preview (which passes the draft theme and
 // no language, so it shows English).

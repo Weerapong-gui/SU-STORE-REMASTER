@@ -7,7 +7,7 @@ import { ToastProvider } from "@/components/admin/ui";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-vi.mock("@/lib/adminApi", () => ({ adminFetch: vi.fn() }));
+vi.mock("@/lib/api/adminApi", () => ({ adminFetch: vi.fn() }));
 
 let container: HTMLDivElement;
 let root: Root;

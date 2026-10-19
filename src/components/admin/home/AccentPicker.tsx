@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { contrastWithWhite } from "@/lib/accent";
+import { contrastWithWhite } from "@/lib/theme/accent";
 import { Card, inputClass } from "@/components/admin/ui";
 
 // Same threshold the server enforces in validate_home() (WCAG AA for normal text).

@@ -8,7 +8,7 @@ import {
   preferredLang,
   stripLocale,
   switchLocalePath,
-} from "@/lib/locale";
+} from "@/lib/i18n/locale";
 
 describe("stripLocale / localePath", () => {
   it("splits the Thai prefix", () => {

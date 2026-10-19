@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { ProductDetail } from "@/components/store/ProductDetail";
-import { getStoreProduct } from "@/lib/storeApi";
+import { getStoreProduct } from "@/lib/api/storeApi";
 
 export const dynamic = "force-dynamic";
 

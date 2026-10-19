@@ -5,9 +5,9 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { Search, Package, CheckCircle2, Clock, XCircle, Truck, AlertCircle, Ticket } from "lucide-react";
 import { useLang } from "@/lib/i18n";
-import { localePath } from "@/lib/locale";
+import { localePath } from "@/lib/i18n/locale";
 import QRCode from "qrcode";
-import { FeedbackModal } from "@/components/FeedbackModal";
+import { FeedbackModal } from "@/components/legacy-fp28/FeedbackModal";
 
 type OrderStatus = "pending_payment" | "waiting_confirm" | "paid" | "preparing" | "shipped" | "received" | "cancelled" | "rejected" | "refund" | "refunded";
 

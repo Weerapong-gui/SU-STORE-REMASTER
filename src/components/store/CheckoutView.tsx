@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { MAX_CART_LINES, MAX_ITEM_QUANTITY, useCart } from "@/components/CartProvider";
-import { SCHOOL_OPTIONS } from "@/lib/checkoutOptions";
-import { formatPrice } from "@/lib/formatPrice";
+import { MAX_CART_LINES, MAX_ITEM_QUANTITY, useCart } from "@/components/store/CartProvider";
+import { SCHOOL_OPTIONS } from "@/lib/store/checkoutOptions";
+import { formatPrice } from "@/lib/store/formatPrice";
 import { useLang, useLocalePath } from "@/lib/i18n";
-import { localized, variantDisplayLabel } from "@/lib/localized";
-import { orderPageHref, saveOrderToken } from "@/lib/orderTokens";
-import { BUYER_FIELD_LABEL_EN, useStoreText } from "@/lib/storeI18n";
+import { localized, variantDisplayLabel } from "@/lib/i18n/localized";
+import { orderPageHref, saveOrderToken } from "@/lib/api/orderTokens";
+import { BUYER_FIELD_LABEL_EN, useStoreText } from "@/lib/i18n/storeI18n";
 import type { StoreMeta, StoreOrder, StoreProduct, StoreVariant } from "@/types/store";
 
 const BUYER_KEY = "su-store-buyer";

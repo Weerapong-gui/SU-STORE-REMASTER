@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import { useStoreText } from "@/lib/storeI18n";
+import { useStoreText } from "@/lib/i18n/storeI18n";
 
 // "closedStore": staff browsing the storefront while it is closed (see lib/storePreview).
 // "draftHome": the /admin/home draft preview. Both are read-only and must not be sent to

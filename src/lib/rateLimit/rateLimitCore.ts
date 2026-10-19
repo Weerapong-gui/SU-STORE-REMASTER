@@ -1,5 +1,5 @@
 // Fixed-window request counting shared by the edge middleware (memory only) and
-// src/lib/rateLimit.ts (which also persists to disk). No Node imports here.
+// src/lib/rateLimit/index.ts (which also persists to disk). No Node imports here.
 
 export const RATE_LIMIT_WINDOW_MS = 60_000;
 

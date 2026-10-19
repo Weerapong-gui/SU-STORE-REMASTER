@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { ORDER_API_BASE } from "@/lib/orderApi";
+import { ORDER_API_BASE } from "@/lib/api/orderApi";
 
 // Product photos uploaded through the admin live on the order-api; serve them from the
 // store's own origin so pages can use the stored "/product-images/<file>" paths as-is.

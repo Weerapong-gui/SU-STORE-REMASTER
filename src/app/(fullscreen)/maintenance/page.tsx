@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Image from "next/image";
 import { MaintenancePolling } from "./MaintenanceClient";
-import { getStoreMeta } from "@/lib/storeApi";
+import { getStoreMeta } from "@/lib/api/storeApi";
 
 export const dynamic = "force-dynamic";
 

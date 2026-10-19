@@ -1,5 +1,5 @@
 import type { NextRequest, NextResponse } from "next/server";
-import { clientIp } from "@/lib/clientIp";
+import { clientIp } from "@/lib/rateLimit/clientIp";
 
 // Anonymous random id used only to count "visitors online" (no personal data, so it
 // is a strictly-necessary cookie under PDPA). Students on one campus/mobile IP would

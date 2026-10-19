@@ -8,7 +8,7 @@ import type { StoreOrder } from "@/types/store";
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const adminFetch = vi.fn();
-vi.mock("@/lib/adminApi", () => ({ adminFetch: (...args: unknown[]) => adminFetch(...args) }));
+vi.mock("@/lib/api/adminApi", () => ({ adminFetch: (...args: unknown[]) => adminFetch(...args) }));
 
 let container: HTMLDivElement;
 let root: Root;

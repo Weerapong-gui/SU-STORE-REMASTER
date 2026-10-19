@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { localePath } from "@/lib/locale";
-import { requestLang } from "@/lib/requestLocale";
+import { localePath } from "@/lib/i18n/locale";
+import { requestLang } from "@/lib/i18n/requestLocale";
 import { Container } from "@/components/ui/Container";
 import { TrackOrder } from "@/components/store/TrackOrder";
 

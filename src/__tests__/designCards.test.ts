@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cardMatches, designCards, productCard } from "@/lib/designCards";
+import { cardMatches, designCards, productCard } from "@/lib/store/designCards";
 import type { StoreProduct, StoreVariant } from "@/types/store";
 
 const variant = (id: number, code: string, overrides: Partial<StoreVariant> = {}): StoreVariant => ({
