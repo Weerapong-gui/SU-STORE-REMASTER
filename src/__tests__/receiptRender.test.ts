@@ -4,7 +4,7 @@ import { DEFAULT_LAYOUT } from "@/lib/receipt/layout";
 import { paginate } from "@/lib/receipt/paginate";
 import { formatReceiptDate, renderReceiptSvg, SAMPLE_SNAPSHOT } from "@/lib/receipt/render";
 
-const template = readFileSync("server/templates/receipt_template_v2.svg", "utf8");
+const template = readFileSync("server/store/templates/receipt_template_v2.svg", "utf8");
 const page = () => paginate(SAMPLE_SNAPSHOT.lines, DEFAULT_LAYOUT, text => text.length)[0];
 const render = (copy = false, sample = false, isLast = true) => renderReceiptSvg(template, DEFAULT_LAYOUT, SAMPLE_SNAPSHOT, { copy, sample, page: { ...page(), isLast }, dateText: "15/10/2569" });
 

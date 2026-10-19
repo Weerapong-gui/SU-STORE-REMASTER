@@ -1,6 +1,6 @@
 import type { ReceiptField, ReceiptLayout } from "@/types/store";
 
-// Same viewBox as server/templates/receipt_template_v2.svg.
+// Same viewBox as server/store/templates/receipt_template_v2.svg.
 export const RECEIPT_VIEWBOX = { width: 812.98, height: 597.12 };
 // The server rejects layout numbers outside these bounds (server/store/receipts.py _validate_layout).
 export const LAYOUT_MAX = 1000;
