@@ -60,6 +60,32 @@ backup DB ให้ใช้ `sqlite3 orders.db ".backup ..."` ห้าม `cp`
 เลขออเดอร์ร้านใหม่เป็น `SU{ปีเดือน}-{ลำดับ}` เช่น `SU2610-0001` เริ่มนับใหม่ทุกเดือน
 ออเดอร์ FP28 เดิมเป็นแบบ `FP2801501`
 
-## อ่านเพิ่ม
+## โครงสร้าง
 
-รายละเอียดโครงสร้าง server, tunnel และข้อควรระวังเวลาแก้โค้ดอยู่ใน `CLAUDE.md` กับ `server/CLAUDE.md`
+```
+src/
+  app/                 หน้าเว็บกับ API route ของ Next
+  components/
+    store/             หน้าร้าน (ตะกร้า, หน้าสินค้า, checkout, ออเดอร์)
+    admin/             หลังร้าน /admin
+    layout/            Navbar, Footer, ตัวเลือกภาษา
+    ui/                ชิ้นส่วนพื้นฐาน
+    legacy-fp28/       ใช้เฉพาะหน้าเช็กออเดอร์ FP28
+  lib/
+    api/               เรียก order-api (storeApi ฝั่ง server, adminApi ฝั่ง browser)
+    i18n/              ภาษาไทย/อังกฤษ, locale ใน URL
+    theme/             สี, มุมโค้ง, ฟอนต์ที่ตั้งจาก /admin/home
+    rateLimit/         จำกัด request
+    store/             helper ของหน้าร้าน
+    receipt/           วาดใบเสร็จ
+  middleware.ts
+server/
+  order_api.py         จุดเริ่มของ order-api
+  core/                ของที่ใช้ร่วมกัน: config, DB, auth, สลิป, HTTP handler
+  store/               API ร้านใหม่ /v2
+  legacy_fp28/         ระบบ FP28 เดิม (admin เก่า, claim station, จอ display, ขันโตก)
+  tests/
+```
+
+ร้านใหม่ห้าม import อะไรจาก `legacy_fp28` ถ้าต้องใช้ร่วมกันให้ย้ายไปไว้ใน `core/`
+พอเลิกใช้ FP28 แล้วก็ลบ `server/legacy_fp28/`, `src/components/legacy-fp28/` กับหน้า `check-order/fp28` ได้เลย
