@@ -1,0 +1,34 @@
+node_modules
+.next
+out
+coverage
+.DS_Store
+.env
+.env.local
+# Runtime data (SQLite DB, uploaded slips, image cache, rate-limit state) — never commit.
+# Covers the real Docker volume layout: data/order-api/su-order-api/{orders.db,slips}, data/su-store, …
+data/
+rate-limit.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# python
+__pycache__/
+*.pyc
+
+# superpowers scratch
+.superpowers/
+
+# python venv (local dev)
+.venv/
+
+# build cache
+*.tsbuildinfo
+
+# local AI agent config
+.agents/
+.claude/
+AGENTS.md
+CLAUDE.md

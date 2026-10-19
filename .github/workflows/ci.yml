@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  frontend:
+    name: Frontend lint & type-check
+    runs-on: ubuntu-latest
+    env:
+      COOKIE_SECRET: ci-cookie-secret-minimum-32-chars
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+  backend:
+    name: Backend lint & tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install test tooling
+        # ruff pinned so new upstream rules can't turn CI red on their own.
+        run: pip install pytest ruff==0.16.10
+
+      - name: Lint (ruff, rules in ruff.toml)
+        run: ruff check server tests
+
+      - name: Run pytest
+        # order_api.py creates its data dirs at import time; point them at a writable
+        # temp location so the module imports on the CI runner (avoids /var/data denial).
+        env:
+          ORDER_API_DB_PATH: /tmp/su-order-api/orders.db
+          ORDER_API_SLIPS_DIR: /tmp/su-order-api/slips
+          ORDER_API_SLIDES_DIR: /tmp/su-order-api/slides
+          ORDER_API_ASSETS_DIR: /tmp/su-order-api/display2_assets
+        # แยกสองคำสั่ง: server/tests กับ tests ต่างก็เป็น package ชื่อ "tests"
+        # รวมใน invocation เดียวแล้ว pytest collect ชนกัน
+        run: |
+          python3 -m pytest server/tests/ -v
+          python3 -m pytest tests/ -v
