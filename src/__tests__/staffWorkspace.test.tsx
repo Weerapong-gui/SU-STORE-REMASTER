@@ -42,6 +42,10 @@ beforeEach(() => {
   adminFetch.mockImplementation(async (path: string, init?: { method?: string }) => {
     if (path === "me") return { username: "owner", isSuperadmin };
     if (path === "users" && init?.method === "POST") return { user: users[1], password: "aB23456789Cd" };
+    if (path === "users/owner" && init?.method === "PATCH") {
+      isSuperadmin = false;
+      return { ...users[0], isSuperadmin: false };
+    }
     return { users };
   });
   container = document.createElement("div");
@@ -78,10 +82,24 @@ describe("StaffWorkspace", () => {
 
   it("asks for confirmation before deleting a staff member", async () => {
     await render();
-    const deleteButtons = [...document.querySelectorAll("button")].filter((item) => item.textContent?.trim() === "ลบ");
-    await act(async () => deleteButtons[1].click());
+    await act(async () => button("ลบ")!.click());
     expect(document.body.textContent).toContain("ลบบัญชี staff นี้?");
     expect(adminFetch).not.toHaveBeenCalledWith("users/counter", expect.objectContaining({ method: "DELETE" }));
+  });
+
+  it("offers no delete button on your own row", async () => {
+    await render();
+    const deleteButtons = [...document.querySelectorAll("button")].filter((item) => item.textContent?.trim() === "ลบ");
+    expect(deleteButtons).toHaveLength(1);
+    expect(deleteButtons[0].closest("tr")?.textContent).toContain("counter");
+  });
+
+  it("drops to the notice after demoting yourself", async () => {
+    await render();
+    await act(async () => button("ถอดผู้ดูแลระบบหลัก")!.click());
+    await act(async () => button("ถอด")!.click());
+    expect(document.body.textContent).toContain("เฉพาะผู้ดูแลระบบหลักเท่านั้น");
+    expect(button("ลบ")).toBeUndefined();
   });
 
   it("shows a notice and does not request the user list for non-superadmins", async () => {

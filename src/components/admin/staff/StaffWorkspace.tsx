@@ -7,7 +7,7 @@ import { adminFetch, formatThaiDateTime } from "@/lib/api/adminApi";
 import type { StaffMember } from "@/types/store";
 import { PasswordReveal } from "./PasswordReveal";
 
-type CurrentUser = { isSuperadmin: boolean };
+type CurrentUser = { username: string; isSuperadmin: boolean };
 type StaffList = { users: StaffMember[] };
 type PasswordResponse = { password: string };
 type CreateResponse = { user: StaffMember; password: string };
@@ -16,6 +16,7 @@ export function StaffWorkspace() {
   const confirm = useConfirm();
   const toast = useToast();
   const [isSuperadmin, setIsSuperadmin] = useState(false);
+  const [currentUsername, setCurrentUsername] = useState("");
   const [accessChecked, setAccessChecked] = useState(false);
   const [users, setUsers] = useState<StaffMember[]>([]);
   const [username, setUsername] = useState("");
@@ -31,22 +32,25 @@ export function StaffWorkspace() {
     }
   }, [toast]);
 
+  const checkAccess = useCallback(async (isActive: () => boolean = () => true) => {
+    try {
+      const me = await adminFetch<CurrentUser>("me");
+      if (!isActive()) return;
+      setCurrentUsername(me.username);
+      setIsSuperadmin(me.isSuperadmin);
+      if (me.isSuperadmin) await loadUsers();
+    } catch (error) {
+      if (isActive()) toast(error instanceof Error ? error.message : "ตรวจสอบสิทธิ์ไม่สำเร็จ", "error");
+    } finally {
+      if (isActive()) setAccessChecked(true);
+    }
+  }, [loadUsers, toast]);
+
   useEffect(() => {
     let active = true;
-    adminFetch<CurrentUser>("me")
-      .then((me) => {
-        if (!active) return;
-        setIsSuperadmin(me.isSuperadmin);
-        setAccessChecked(true);
-        if (me.isSuperadmin) void loadUsers();
-      })
-      .catch((error: unknown) => {
-        if (!active) return;
-        setAccessChecked(true);
-        toast(error instanceof Error ? error.message : "ตรวจสอบสิทธิ์ไม่สำเร็จ", "error");
-      });
+    void checkAccess(() => active);
     return () => { active = false; };
-  }, [loadUsers, toast]);
+  }, [checkAccess]);
 
   async function createStaff(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -96,7 +100,8 @@ export function StaffWorkspace() {
     setBusy(true);
     try {
       await adminFetch<StaffMember>(`users/${encodeURIComponent(user.username)}`, { method: "PATCH", json: { isSuperadmin: nextValue } });
-      await loadUsers();
+      // Demoting yourself ends access to this page, so re-check instead of reloading the list.
+      await (user.username === currentUsername ? checkAccess() : loadUsers());
     } catch (error) {
       toast(error instanceof Error ? error.message : "เปลี่ยนสิทธิ์ไม่สำเร็จ", "error");
     } finally {
@@ -127,7 +132,9 @@ export function StaffWorkspace() {
                 <td className="py-3"><div className="flex flex-wrap gap-2">
                   <Button variant="secondary" disabled={busy} onClick={() => void resetPassword(user)}>รีเซ็ตรหัสผ่าน</Button>
                   <Button variant="secondary" disabled={busy} onClick={() => void toggleSuperadmin(user)}>{user.isSuperadmin ? "ถอดผู้ดูแลระบบหลัก" : "ตั้งผู้ดูแลระบบหลัก"}</Button>
-                  <Button variant="danger" disabled={busy} onClick={() => void deleteStaff(user)}>ลบ</Button>
+                  {user.username !== currentUsername && (
+                    <Button variant="danger" disabled={busy} onClick={() => void deleteStaff(user)}>ลบ</Button>
+                  )}
                 </div></td>
               </tr>
             ))}</tbody>
