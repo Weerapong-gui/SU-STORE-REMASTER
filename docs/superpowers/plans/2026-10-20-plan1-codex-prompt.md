@@ -40,6 +40,8 @@ codex exec -C . -s workspace-write -o /tmp/codex-plan1-task<N>.md "$(sed 's/__TA
 - ทำตาม step แบบ TDD: เขียนเทสก่อน → รันให้เห็นว่า fail → เขียนโค้ด → รันให้ผ่าน
 - **ห้าม commit และห้ามแตะ `.git`** เพราะ sandbox เขียน `.git` ไม่ได้ เจ้าของงานจะ commit เอง ข้าม step "commit" ไปได้เลย
 - sandbox เปิด socket localhost ไม่ได้ เทสที่ใช้ fixture `server` / `_call` (HTTP จริง) ให้เขียนให้ครบแต่ไม่ต้องรัน แล้วบอกชื่อเทสพวกนั้นในรายงาน ส่วนเทสที่ไม่ใช้ socket ต้องรันให้ผ่าน
+- ห้ามแก้ไฟล์ snapshot ใน `server/tests/snapshots/` ด้วยมือ เพราะรันเทส snapshot ใน sandbox ไม่ได้ ถ้าคิดว่า snapshot ต้องเปลี่ยน ให้บอกในรายงาน เจ้าของงานจะรัน `UPDATE_SNAPSHOT=1` เอง
+- เทสที่เขียนลง DB ตรงๆ ต้องใส่ทุก column ที่เป็น `NOT NULL` (เช่น `site_settings.updated_at`) ดู `CREATE TABLE` ใน `server/core/database.py` ก่อนเขียน
 - Python ต้องเป็น 3.11+ ถ้ายังไม่มี `.venv` ให้สร้างด้วย `/opt/homebrew/opt/python@3.11/bin/python3.11 -m venv .venv && .venv/bin/pip install pytest ruff==0.16.10` (`python3` ของระบบเป็น 3.9 ใช้ไม่ได้) ตอนรัน pytest ให้ตั้ง env `ORDER_API_DB_PATH=/tmp/su-order-api/orders.db ORDER_API_SLIPS_DIR=/tmp/su-order-api/slips ORDER_API_SLIDES_DIR=/tmp/su-order-api/slides ORDER_API_ASSETS_DIR=/tmp/su-order-api/display2_assets`
 - ถ้าต้องติดตั้ง npm package (Task 8) แล้ว sandbox ออกเน็ตไม่ได้ ให้แก้ `package.json` ไว้ แล้วบอกเจ้าของงานให้รัน `npm install` เอง จากนั้นหยุด
 - **หยุดแล้วถามเจ้าของงาน แทนการเดา** ในกรณีต่อไปนี้: gate ของ Task 1, เงื่อนไข "หยุดแล้วถาม" ใน Task 6 Step 3, หรือแผนขัดกับโค้ดจริงจนต้องเปลี่ยนการออกแบบ (ชื่อ interface, route, หรือ schema) ส่วนเรื่องเล็กที่ไม่เปลี่ยนสิ่งที่ส่งมอบ ตัดสินใจเองได้ แต่ต้องบอกในรายงาน
