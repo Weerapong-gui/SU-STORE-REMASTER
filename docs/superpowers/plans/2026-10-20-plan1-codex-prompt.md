@@ -48,7 +48,7 @@ codex exec -C . -s workspace-write -o /tmp/codex-plan1-task<N>.md "$(sed 's/__TA
 ก่อนจบต้องรันคำสั่งเหล่านี้ (ตัวไหนรันไม่ได้เพราะ sandbox ให้บอกว่าเพราะอะไร):
 - `.venv/bin/ruff check server tests`
 - `.venv/bin/python -m pytest server/tests/ -v` และ `.venv/bin/python -m pytest tests/ -v` (เทสที่ fail เพราะเปิด socket ไม่ได้ ไม่นับ)
-- `npm run lint` · `npx tsc --noEmit` · `npm test`
+- `COOKIE_SECRET=ci-cookie-secret-minimum-32-chars npm run lint` (`next.config.mjs` จะ throw ถ้าไม่มี `COOKIE_SECRET`) · `npx tsc --noEmit` · `npm test`
 
 รายงานตอนจบ (ภาษาไทย สั้น):
 1. สถานะ: เสร็จ / เสร็จบางส่วน / หยุดรอเจ้าของงาน (ถ้าหยุด ให้บอกคำถามที่ต้องการคำตอบ)
