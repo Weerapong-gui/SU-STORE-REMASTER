@@ -54,6 +54,11 @@ describe("middleware locale routing", () => {
     expect(forwarded(res, LANG_HEADER)).toBe("th");
   });
 
+  it("does not close the storefront for FP28 schedule fields", async () => {
+    const res = await run(false, "/products", { headers: englishMac });
+    expect(rewrittenTo(res)).not.toContain("/maintenance");
+  });
+
   it("rewrites Thai paths on always-open hosts", async () => {
     vi.stubEnv("ALWAYS_OPEN", "1");
     const res = await run(false, "/th/products/x", { headers: thaiPhone });

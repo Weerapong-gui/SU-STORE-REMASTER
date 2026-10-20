@@ -13,7 +13,7 @@ describe("middleware store preview", () => {
   afterEach(resetMiddlewareHarness);
 
   it("shows customers the closed page", async () => {
-    expect(rewrittenTo(await run(true, "/"))).toContain("/maintenance?reason=manual");
+    expect(rewrittenTo(await run(true, "/"))).toContain("/maintenance");
   });
 
   it("lets verified staff preview the closed store", async () => {

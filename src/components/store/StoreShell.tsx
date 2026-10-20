@@ -1,7 +1,6 @@
 import { CartProvider } from "@/components/store/CartProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { ScheduleWarningBanner } from "@/components/layout/ScheduleWarningBanner";
 import { AnnouncementBar } from "@/components/store/AnnouncementBar";
 import { StorePreviewBar, StorePreviewProvider, type StorePreviewMode } from "@/components/store/StorePreview";
 import { accentVars, DEFAULT_ACCENT } from "@/lib/theme/accent";
@@ -36,7 +35,6 @@ export function StoreShell({ accent, radius, font, announcement, preview = null,
             {preview === "closedStore" && <StorePreviewBar />}
             <AnnouncementBar text={announcement} />
             <Navbar />
-            <ScheduleWarningBanner />
             <main className="flex-1">{children}</main>
             <Footer />
           </div>

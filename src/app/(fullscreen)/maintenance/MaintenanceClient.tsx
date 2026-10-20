@@ -6,13 +6,10 @@ import { localePath, stripLocale } from "@/lib/i18n/locale";
 
 type SiteStatus = {
   siteClosed?: boolean;
-  scheduleClosed?: boolean;
-  beRightBack?: boolean;
 };
 
-export function MaintenancePolling({ reason }: { reason?: string }) {
+export function MaintenancePolling() {
   const router = useRouter();
-  const isBeRightBack = reason === "beRightBack";
 
   useEffect(() => {
     const check = async () => {
@@ -20,7 +17,7 @@ export function MaintenancePolling({ reason }: { reason?: string }) {
         const res = await fetch("/api/site-status", { cache: "no-store" });
         if (!res.ok) return;
         const data = (await res.json()) as SiteStatus;
-        if (!data.siteClosed && !data.scheduleClosed && !data.beRightBack) {
+        if (!data.siteClosed) {
           // This page sits outside LanguageProvider, so read the language from the URL.
           router.replace(localePath(stripLocale(window.location.pathname).lang, "/"));
         }
@@ -32,7 +29,7 @@ export function MaintenancePolling({ reason }: { reason?: string }) {
     check();
     const interval = setInterval(check, 10_000);
     return () => clearInterval(interval);
-  }, [router, isBeRightBack]);
+  }, [router]);
 
   return null;
 }

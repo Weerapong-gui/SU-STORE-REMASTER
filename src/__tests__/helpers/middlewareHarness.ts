@@ -9,7 +9,11 @@ export type RunOptions = { cookie?: string; method?: string; headers?: Record<st
 // Fakes the order-api: the store is open or closed, and only "Claim good" is a staff session.
 function fakeOrderApi(siteClosed: boolean) {
   return vi.fn(async (url: string, init?: RequestInit) => {
-    if (url.startsWith(`${API}/site-status`)) return Response.json({ siteClosed });
+    if (url.startsWith(`${API}/site-status`)) return Response.json({
+      siteClosed,
+      scheduleClosed: true,
+      beRightBack: true,
+    });
     if (url === `${API}/v2/admin/me`) {
       const auth = (init?.headers as Record<string, string>).Authorization;
       return new Response("{}", { status: auth === "Claim good" ? 200 : 401 });

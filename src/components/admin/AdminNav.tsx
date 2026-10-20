@@ -16,9 +16,6 @@ const NAV_ITEMS = [
 
 const STAFF_ITEM = { href: "/admin/staff", label: "จัดการ staff" };
 
-// FP28 orders still live in the original order-api admin page.
-const LEGACY_ADMIN_URL = "https://admin.sumfu.xyz/admin";
-
 export function AdminNav() {
   const pathname = usePathname();
   const router = useRouter();
@@ -54,15 +51,6 @@ export function AdminNav() {
           </Link>
         ))}
         <div className="ml-auto flex items-center gap-1">
-          <a
-            href={LEGACY_ADMIN_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-lg px-3 py-1.5 text-sm text-zinc-500 hover:bg-zinc-100"
-            title="ระบบเดิมของ Fresher Package 28 (ดูออเดอร์เก่า, จุดรับของ)"
-          >
-            ข้อมูล FP28 (เก่า) ↗
-          </a>
           <button
             onClick={handleLogout}
             className="rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-500 hover:bg-zinc-100"

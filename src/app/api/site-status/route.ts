@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   const host = request.headers.get("host") ?? "";
   const isStaging = STAGING_HOST !== "" && host.startsWith(STAGING_HOST);
   if (ALWAYS_OPEN || isStaging) {
-    return NextResponse.json({ siteClosed: false, scheduleClosed: false, beRightBack: false, alwaysOpen: true, activeVisitors: 0 });
+    return NextResponse.json({ siteClosed: false, alwaysOpen: true, activeVisitors: 0 });
   }
 
   try {
@@ -32,8 +32,11 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ siteClosed: false, activeVisitors: 0 });
     }
 
-    const data = await res.json();
-    return NextResponse.json(data);
+    const data = (await res.json()) as { siteClosed?: boolean; activeVisitors?: number };
+    return NextResponse.json({
+      siteClosed: data.siteClosed === true,
+      activeVisitors: data.activeVisitors ?? 0,
+    });
   } catch {
     return NextResponse.json({ siteClosed: false, activeVisitors: 0 });
   }

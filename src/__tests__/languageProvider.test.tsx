@@ -9,7 +9,6 @@ import { assignLocation, replaceLocation } from "@/lib/navigate";
 vi.mock("@/lib/navigate", () => ({ assignLocation: vi.fn(), replaceLocation: vi.fn() }));
 vi.mock("@/components/layout/Navbar", () => ({ Navbar: () => null }));
 vi.mock("@/components/layout/Footer", () => ({ Footer: () => null }));
-vi.mock("@/components/layout/ScheduleWarningBanner", () => ({ ScheduleWarningBanner: () => null }));
 vi.mock("@/components/store/CartProvider", () => ({
   CartProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));

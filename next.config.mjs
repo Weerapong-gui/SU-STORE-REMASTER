@@ -22,6 +22,31 @@ const securityHeaders = [
 
 const nextConfig = {
   output: "standalone",
+  async redirects() {
+    return [
+      // Legacy FP28 orders remain available on the storefront that owns them.
+      {
+        source: "/check-order/fp28",
+        destination: "https://fp28.sumfu.store/check-order/fp28",
+        permanent: true,
+      },
+      {
+        source: "/th/check-order/fp28",
+        destination: "https://fp28.sumfu.store/check-order/fp28",
+        permanent: true,
+      },
+      // Old FP28 links searched /check-order by student ID or FP28 order id; the query
+      // string is carried over to the destination.
+      ...["/check-order", "/th/check-order"].flatMap((source) =>
+        ["studentCode", "orderId"].map((key) => ({
+          source,
+          has: [{ type: "query", key }],
+          destination: "https://fp28.sumfu.store/check-order/fp28",
+          permanent: true,
+        }))
+      ),
+    ];
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

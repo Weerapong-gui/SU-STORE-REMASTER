@@ -13,7 +13,7 @@ const MAX_ORDER_REQUESTS = 10;
 
 // ── Site-closed cache ──────────────────────────────────────────────────────────
 // Edge Runtime modules may not be shared between requests so this is best-effort.
-let siteClosedCache = { closed: false, reason: "", beRightBack: false, ts: 0 };
+let siteClosedCache = { closed: false, ts: 0 };
 const SITE_STATUS_TTL = 15_000; // 15 seconds
 
 const BYPASS_TOKEN = process.env.BYPASS_TOKEN ?? "";
@@ -105,7 +105,7 @@ export async function middleware(request: NextRequest) {
   // ── Rate-limit order creation and order lookup ──────────────────────────────
   if (request.method === "POST" && (pathname === "/api/store/orders" || pathname === "/api/store/orders/lookup")) {
     // Staff previewing the closed store must not create real orders.
-    if (pathname === "/api/store/orders" && adminCookie(request) && !hasBypass && !isAlwaysOpen(request) && (await siteClosedReason(request, undefined, pathname))) {
+    if (pathname === "/api/store/orders" && adminCookie(request) && !hasBypass && !isAlwaysOpen(request) && (await siteClosed(request, undefined, pathname))) {
       return NextResponse.json({ success: false, message: PREVIEW_ORDER_BLOCKED_MESSAGE }, { status: 403 });
     }
     if (consume(orderRateLimits, clientIp(request), MAX_ORDER_REQUESTS) === "limited") {
@@ -157,15 +157,15 @@ export async function middleware(request: NextRequest) {
 // Page navigations: rewrite to /maintenance while the store is closed, except for
 // signed-in staff, who get a read-only preview.
 async function gatedPageResponse(request: NextRequest, visitorIdValue: string, locale: PageLocale): Promise<NextResponse> {
-  const reason = await siteClosedReason(request, visitorIdValue, locale.path);
+  const closed = await siteClosed(request, visitorIdValue, locale.path);
   const gate = storeGate({
-    closed: reason !== "",
-    staff: reason !== "" && (await isStaffSession(request)),
+    closed,
+    staff: closed && (await isStaffSession(request)),
     pathname: locale.path
   });
   if (gate === "closed") {
     // Keep the language headers so the closed page speaks the language of the URL.
-    return NextResponse.rewrite(new URL(`/maintenance?reason=${reason}`, request.url), {
+    return NextResponse.rewrite(new URL("/maintenance", request.url), {
       request: { headers: pageHeaders(request, false, locale) }
     });
   }
@@ -192,10 +192,10 @@ function pageResponse(request: NextRequest, preview: boolean, locale: PageLocale
   return NextResponse.next({ request: { headers } });
 }
 
-// Why the store is closed ("" = open), cached for SITE_STATUS_TTL.
+// Whether the store is manually closed, cached for SITE_STATUS_TTL.
 // `pathname` is the decoded request path (for pages, with any /th prefix removed).
-async function siteClosedReason(request: NextRequest, visitorIdValue: string | undefined, pathname: string): Promise<string> {
-  if (pathname === "/maintenance" || !ORDER_API_BASE) return "";
+async function siteClosed(request: NextRequest, visitorIdValue: string | undefined, pathname: string): Promise<boolean> {
+  if (pathname === "/maintenance" || !ORDER_API_BASE) return false;
 
   const now = Date.now();
   if (now - siteClosedCache.ts > SITE_STATUS_TTL) {
@@ -205,18 +205,15 @@ async function siteClosedReason(request: NextRequest, visitorIdValue: string | u
         cache: "no-store"
       });
       if (res.ok) {
-        const data = (await res.json()) as { siteClosed?: boolean; scheduleClosed?: boolean; beRightBack?: boolean };
-        const brb = data.beRightBack === true;
-        const closed = brb || data.siteClosed === true || data.scheduleClosed === true;
-        const reason = brb ? "beRightBack" : data.siteClosed ? "manual" : data.scheduleClosed ? "schedule" : "";
-        siteClosedCache = { closed, reason, beRightBack: brb, ts: now };
+        const data = (await res.json()) as { siteClosed?: boolean };
+        siteClosedCache = { closed: data.siteClosed === true, ts: now };
       }
     } catch {
       // Fail open — don't block if API unreachable
     }
   }
 
-  return siteClosedCache.closed ? siteClosedCache.reason : "";
+  return siteClosedCache.closed;
 }
 
 export const config = {

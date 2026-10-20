@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { orderPageHref, saveOrderToken } from "@/lib/api/orderTokens";
 import { useStoreText } from "@/lib/i18n/storeI18n";
-import type { StoreOrder } from "@/types/store";
 import { useLocalePath } from "@/lib/i18n";
+import type { StoreOrder } from "@/types/store";
 
 const inputClass =
   "w-full rounded-2xl border border-zinc-300 bg-white px-4 py-3 text-base outline-none transition focus:border-apple-blue focus:ring-4 focus:ring-apple-blue/10";
@@ -73,12 +72,6 @@ export function TrackOrder() {
           {loading ? t.finding : t.find}
         </button>
       </form>
-      <p className="mt-10 border-t border-zinc-200 pt-6 text-sm text-ink-soft">
-        {t.fp28Link}{" "}
-        <Link href={localePath("/check-order/fp28")} className="inline-flex min-h-11 items-center font-semibold text-apple-blue hover:underline">
-          {t.fp28Cta} →
-        </Link>
-      </p>
     </div>
   );
 }
