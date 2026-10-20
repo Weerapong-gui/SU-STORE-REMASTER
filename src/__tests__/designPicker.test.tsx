@@ -55,6 +55,11 @@ describe("ProductDetail design picker", () => {
     expect(swatch("LAW").disabled).toBe(true);
     expect(swatch("LAW").getAttribute("aria-label")).toContain("sold out");
   });
+
+  it("bands only sold-out designs with a visible SOLD OUT label", () => {
+    expect(swatch("LAW").querySelector("[aria-hidden]")?.textContent).toBe("SOLD OUT");
+    expect(swatch("AI").textContent).not.toContain("SOLD OUT");
+  });
 });
 
 describe("BuyBar feedback", () => {

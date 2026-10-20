@@ -34,16 +34,24 @@ export function DesignPicker({ designs, selectedId, onSelect }: {
               disabled={design.soldOut}
               onClick={() => onSelect(design)}
               className={cn(
-                "flex h-14 w-14 shrink-0 md:aspect-square md:h-auto md:w-auto items-center justify-center overflow-hidden rounded-xl bg-mist p-0 text-[11px] font-bold text-ink ring-1 ring-inset ring-black/10 transition",
+                "relative flex h-14 w-14 shrink-0 md:aspect-square md:h-auto md:w-auto items-center justify-center overflow-hidden rounded-xl bg-mist p-0 text-[11px] font-bold text-ink ring-1 ring-inset ring-black/10 transition",
                 checked && "ring-2 ring-apple-blue ring-offset-2",
-                design.soldOut && "cursor-not-allowed opacity-30"
+                design.soldOut && "cursor-not-allowed"
               )}
             >
-              {design.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={design.image} alt="" className="h-full w-full object-cover" />
-              ) : (
-                design.designCode
+              {/* Only the artwork fades, so the band on top stays readable. */}
+              <span className={cn("flex h-full w-full items-center justify-center", design.soldOut && "opacity-30")}>
+                {design.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={design.image} alt="" className="h-full w-full object-cover" />
+                ) : (
+                  design.designCode
+                )}
+              </span>
+              {design.soldOut && (
+                <span aria-hidden className="absolute left-1/2 top-1/2 w-[150%] -translate-x-1/2 -translate-y-1/2 -rotate-[20deg] bg-ink/85 py-0.5 text-center text-[9px] font-bold uppercase tracking-wider text-white md:text-[10px]">
+                  {t.soldOutBand}
+                </span>
               )}
             </button>
           );
