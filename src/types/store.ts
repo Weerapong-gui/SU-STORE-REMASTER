@@ -13,6 +13,13 @@ export type StoreCategory = {
   productCount: number;
 };
 
+export type StaffMember = {
+  username: string;
+  isSuperadmin: boolean;
+  createdBy: string;
+  createdAt: string;
+};
+
 export type StoreVariant = {
   designCode: string;
   designName: string;
