@@ -1,28 +1,27 @@
 # SU STORE
 
-เว็บร้านค้าขององค์การนักศึกษา มหาวิทยาลัยแม่ฟ้าหลวง ใช้ Next.js 14 เป็น storefront และ Python order-api สำหรับ API/ข้อมูล ร้านใหม่อยู่ใต้ `/v2/` และจัดเก็บข้อมูลในตาราง `store_*`
+เว็บร้านค้าขององค์การนักศึกษา มหาวิทยาลัยแม่ฟ้าหลวง ใช้ Next.js 14 เป็น storefront และเชื่อม Python order-api จาก repo [SU-STORE-SERVER](https://github.com/Weerapong-gui/SU-STORE-SERVER) สำหรับ API/ข้อมูล ร้านใหม่อยู่ใต้ `/v2/` และจัดเก็บข้อมูลในตาราง `store_*`
 
 ## เริ่มใช้งานในเครื่อง
+
+ต้องติดตั้ง Docker Desktop หรือ OrbStack และ Node.js 20 ก่อน
 
 ```bash
 ./dev.sh
 ```
 
-คำสั่งนี้เริ่ม order-api และ Next.js พร้อม DB ทดลองใน `data/dev/` เข้าหลังร้านที่ `http://localhost:3000/admin` ด้วยบัญชี `staff` / `dev` สำหรับข้อมูลตัวอย่างเท่านั้น
+สคริปต์ดึง order-api image จาก GHCR มาเปิดด้วย Docker Compose ใช้ฐานข้อมูลตัวอย่างใน `data/dev/` แล้วเริ่ม Next.js เข้าหน้าร้านที่ `http://localhost:3000` และเข้าหลังร้านที่ `http://localhost:3000/admin` ด้วยบัญชี `staff` / `dev` สำหรับข้อมูลตัวอย่างเท่านั้น
+
+เลือก tag ของ backend ได้ด้วย `BACKEND_TAG=<sha> ./dev.sh` (ต้องเป็น image ที่เผยแพร่บน GHCR เช่น tag จาก `main`) และตรวจ contract จาก checkout ในเครื่องได้ด้วย `CONTRACT_DIR=../SU-STORE-SERVER/contract npm run contract:sync -- --check`.
+ใช้ `./dev.sh reset` เพื่อลบฐานข้อมูลตัวอย่างและเริ่มใหม่ โดยสคริปต์จะถามยืนยันก่อน
 
 ## ตรวจสอบ
-
-ต้องมี Python 3.11+ สร้าง `.venv` ครั้งแรกด้วย `python3.11 -m venv .venv && .venv/bin/pip install pytest ruff==0.16.10`
 
 ```bash
 npm test
 npx tsc --noEmit
-COOKIE_SECRET=ci-cookie-secret-minimum-32-chars npm run lint  # next.config.mjs ต้องมี COOKIE_SECRET
-
-.venv/bin/ruff check server tests
-ORDER_API_DB_PATH=/tmp/su-order-api/orders.db ORDER_API_SLIPS_DIR=/tmp/su-order-api/slips \
-  .venv/bin/python -m pytest server/tests/ -v
-npm run contract:sync -- --check
+npm run lint
+CONTRACT_DIR=../SU-STORE-SERVER/contract npm run contract:sync -- --check
 ```
 
 ## หน้าร้านและหลังร้าน
@@ -31,21 +30,18 @@ npm run contract:sync -- --check
 - `/admin/staff` ให้ superadmin เพิ่ม staff, รีเซ็ตรหัสผ่าน, ลบบัญชี และจัดการสิทธิ์ superadmin
 - `/check-order` ค้นหาออเดอร์ร้านด้วยเลขออเดอร์และเบอร์โทร
 - `/check-order/fp28` redirect ไป `https://fp28.sumfu.store/check-order/fp28` เพื่อรองรับลิงก์เดิม
-- สถานะออเดอร์ร้านใหม่: `pending_payment`, `waiting_confirm`, `paid`, `ready`, `completed`, `cancelled` (ดู source ที่ `server/store/db.py`)
+- สถานะออเดอร์ร้านใหม่: `pending_payment`, `waiting_confirm`, `paid`, `ready`, `completed`, `cancelled` (ดู source ที่ `store/db.py` ของ repo backend)
 
 ## โครงสร้างหลัก
 
 ```text
 src/                 Next.js storefront, admin, proxy routes และ contract copy
-server/core/          HTTP server, config, DB, auth และ public routes
-server/store/         business logic และ API ของร้าน
-server/contract/      แหล่งความจริงของค่าร่วม, ใบเสร็จ และ OpenAPI
-server/tests/         pytest ของ backend
+scripts/             เครื่องมือ sync contract จาก backend
 ```
 
 ## Contract และ API compatibility
 
-`server/contract/` เป็นแหล่งความจริงของค่าที่ใช้ร่วมกัน, receipt template และ OpenAPI ส่วนหน้าร้านเก็บสำเนาใน `src/contract/` เมื่อ backend เปลี่ยน contract ให้รัน `npm run contract:sync` จากนั้นตรวจ diff และ commit สำเนาฝั่งหน้าร้านด้วย
+`contract/` ของ repo backend เป็นแหล่งความจริงสำหรับค่าที่ใช้ร่วมกัน, receipt template และ OpenAPI ส่วนหน้าร้านเก็บสำเนาใน `src/contract/` เมื่อ backend เปลี่ยน contract ให้รัน `npm run contract:sync` จากนั้นตรวจ diff และ commit สำเนาฝั่งหน้าร้านด้วย
 
 Backend ต้องรองรับหน้าร้านที่ deploy อยู่ปัจจุบันเสมอ เพิ่มของใหม่ได้ แต่จะลบหรือเปลี่ยนความหมายของ field/endpoint ได้ก็ต่อเมื่อหน้าร้านเลิกใช้แล้ว งานที่ต้องแก้สองฝั่งให้ merge backend ก่อน
 

@@ -1,34 +1,47 @@
 #!/usr/bin/env bash
-# Local dev: order-api (Python, port 10000) + Next.js (port 3000), both against a
-# throwaway SQLite DB in data/dev/ — never production data. Ctrl-C stops both.
+# Start the sample backend in Docker and the storefront with Next.js.
 set -euo pipefail
-cd "$(dirname "$0")"
 
-PY="$(command -v python3.13 || command -v python3.12 || command -v python3.11 || command -v python3)"
-DEV_DATA="$PWD/data/dev"
-mkdir -p "$DEV_DATA"
+ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+cd "$ROOT_DIR"
+
+if [ "${1:-}" = "reset" ]; then
+  printf 'ลบฐานข้อมูลตัวอย่างใน data/dev แล้วเริ่มใหม่หรือไม่? [y/N] '
+  read -r answer
+  case "$answer" in
+    y|Y|yes|YES) rm -rf -- "$ROOT_DIR/data/dev" ;;
+    *) printf 'ยกเลิกการ reset\n'; exit 0 ;;
+  esac
+elif [ "$#" -gt 0 ]; then
+  printf 'วิธีใช้: BACKEND_TAG=<tag> ./dev.sh [reset]\n' >&2
+  exit 64
+fi
+
+if ! command -v docker >/dev/null 2>&1; then
+  printf 'ไม่พบ docker กรุณาติดตั้ง Docker Desktop หรือ OrbStack แล้วลองอีกครั้ง\n' >&2
+  exit 1
+fi
 
 if [ ! -f .env.local ]; then
-  cat > .env.local <<EOF
-COOKIE_SECRET=$(openssl rand -hex 32)
+  cat > .env.local <<'EOF'
 ORDER_API_BASE_URL=http://127.0.0.1:10000
-ORDER_API_TOKEN=dev-token
 BYPASS_TOKEN=dev-bypass
 ALWAYS_OPEN=1
 EOF
-  echo "Created .env.local"
+  printf 'สร้าง .env.local แล้ว\n'
 fi
 
-[ -d node_modules ] || npm install
+stop_backend() {
+  docker compose -f compose.dev.yml stop
+}
+trap stop_backend EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
 
-ORDER_API_HOST=127.0.0.1 \
-ORDER_API_PORT=10000 \
-ORDER_API_DB_PATH="$DEV_DATA/orders.db" \
-ORDER_API_TOKEN=dev-token \
-PICKUP_PASSWORD=dev \
-  "$PY" server/order_api.py &
-API_PID=$!
-trap 'kill $API_PID 2>/dev/null' EXIT
+if [ ! -d node_modules ]; then
+  npm install
+fi
 
-echo "order-api → http://127.0.0.1:10000/health · หลังร้าน → http://localhost:3000/admin"
+docker compose -f compose.dev.yml up -d --wait
+printf 'หน้าร้าน: http://localhost:3000 · หลังร้าน: http://localhost:3000/admin\n'
 npm run dev
