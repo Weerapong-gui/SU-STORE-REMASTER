@@ -15,13 +15,9 @@ tsconfig.tsbuildinfo
 
 # CI / config not needed at runtime
 .github/
-.pytest_cache/
-__pycache__/
-*.pyc
 
 # Test files
 src/__tests__/
-server/tests/
 
 # Docs / local config
 *.md
@@ -31,7 +27,6 @@ deploy.sh
 
 # Env examples (actual .env loaded via docker-compose at runtime)
 .env.example
-.env.order-api.example
 
 # Logs
 *.log
