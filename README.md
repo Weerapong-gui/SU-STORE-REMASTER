@@ -1,91 +1,58 @@
-# SU-STORE
+# SU STORE
 
-เว็บร้านค้าขององค์การนักศึกษา มฟล. (https://sumfu.store)
+เว็บร้านค้าขององค์การนักศึกษา มหาวิทยาลัยแม่ฟ้าหลวง ใช้ Next.js 14 เป็น storefront และ Python order-api สำหรับ API/ข้อมูล ร้านใหม่อยู่ใต้ `/v2/` และจัดเก็บข้อมูลในตาราง `store_*`
 
-เริ่มจากเว็บขาย Fresher Package 28 แล้วค่อยๆ ปรับมาเป็นร้านที่ขายของได้หลายอย่าง
-ข้อมูลออเดอร์ FP28 เดิมยังอยู่ใน DB เหมือนเดิม ส่วนระบบใหม่ใช้ตาราง `store_*` แยกออกมา
-
-มีสองส่วน
-
-- `su-store` หน้าเว็บ Next.js 14 (หน้าร้าน + หลังร้านที่ `/admin`)
-- `su-order-api` Python (`server/order_api.py`) เก็บข้อมูลใน SQLite, API ของร้านใหม่อยู่ใต้ `/v2/` (โค้ดใน `server/store/`)
-
-## รันในเครื่อง
+## เริ่มใช้งานในเครื่อง
 
 ```bash
 ./dev.sh
 ```
 
-สคริปต์จะสร้าง `.env.local` ให้ถ้ายังไม่มี แล้วเปิด order-api ที่พอร์ต 10000 กับ Next ที่พอร์ต 3000
-DB ที่ใช้คือ `data/dev/orders.db` ไม่ใช่ของจริง ลบทิ้งได้ตลอด
+คำสั่งนี้เริ่ม order-api และ Next.js พร้อม DB ทดลองใน `data/dev/` เข้าหลังร้านที่ `http://localhost:3000/admin` ด้วยบัญชี `staff` / `dev` สำหรับข้อมูลตัวอย่างเท่านั้น
 
-เข้าหลังร้านที่ http://localhost:3000/admin ด้วย `staff` / `dev`
+## ตรวจสอบ
 
-## เทสต์
+ต้องมี Python 3.11+ สร้าง `.venv` ครั้งแรกด้วย `python3.11 -m venv .venv && .venv/bin/pip install pytest ruff==0.16.10`
 
 ```bash
 npm test
-npx tsc --noEmit && npm run lint
+npx tsc --noEmit
+COOKIE_SECRET=ci-cookie-secret-minimum-32-chars npm run lint  # next.config.mjs ต้องมี COOKIE_SECRET
 
-python3 -m pytest server/tests/
+.venv/bin/ruff check server tests
+ORDER_API_DB_PATH=/tmp/su-order-api/orders.db ORDER_API_SLIPS_DIR=/tmp/su-order-api/slips \
+  .venv/bin/python -m pytest server/tests/ -v
+npm run contract:sync -- --check
 ```
 
-## Deploy
+## หน้าร้านและหลังร้าน
 
-production รันบนเครื่อง arch ของเรา ใช้ Docker Compose และเปิดออกเน็ตผ่าน Cloudflare Tunnel
+- `/admin` ใช้จัดการสินค้า, หมวดหมู่, ออเดอร์, หน้าแรก, การตั้งค่าร้าน และข้อมูลสลิป
+- `/admin/staff` ให้ superadmin เพิ่ม staff, รีเซ็ตรหัสผ่าน, ลบบัญชี และจัดการสิทธิ์ superadmin
+- `/check-order` ค้นหาออเดอร์ร้านด้วยเลขออเดอร์และเบอร์โทร
+- `/check-order/fp28` redirect ไป `https://fp28.sumfu.store/check-order/fp28` เพื่อรองรับลิงก์เดิม
+- สถานะออเดอร์ร้านใหม่: `pending_payment`, `waiting_confirm`, `paid`, `ready`, `completed`, `cancelled` (ดู source ที่ `server/store/db.py`)
 
-```bash
-./deploy.sh          # ทั้งสอง service
-./deploy.sh store    # เฉพาะหน้าเว็บ
-./deploy.sh api      # เฉพาะ order-api (แก้แค่ server/ ใช้อันนี้ เร็วกว่า)
+## โครงสร้างหลัก
+
+```text
+src/                 Next.js storefront, admin, proxy routes และ contract copy
+server/core/          HTTP server, config, DB, auth และ public routes
+server/store/         business logic และ API ของร้าน
+server/contract/      แหล่งความจริงของค่าร่วม, ใบเสร็จ และ OpenAPI
+server/tests/         pytest ของ backend
 ```
 
-ต้อง commit ให้เรียบร้อยก่อน ถ้ามีไฟล์ค้างสคริปต์จะไม่ยอม deploy
-มันจะส่งโค้ดตาม commit ปัจจุบันขึ้นไป build ใหม่ รอจน container healthy แล้วค่อยเขียน `REVISION`
-ค่าเริ่มต้นจะต่อไปที่ `park@100.94.120.103` (Tailscale) ถ้าจะใช้ host อื่นให้ตั้ง `DEPLOY_HOST`
+## Contract และ API compatibility
 
-ข้อมูลจริงอยู่บน host ที่
+`server/contract/` เป็นแหล่งความจริงของค่าที่ใช้ร่วมกัน, receipt template และ OpenAPI ส่วนหน้าร้านเก็บสำเนาใน `src/contract/` เมื่อ backend เปลี่ยน contract ให้รัน `npm run contract:sync` จากนั้นตรวจ diff และ commit สำเนาฝั่งหน้าร้านด้วย
 
-- DB: `/home/park/SU-STORE/data/order-api/su-order-api/orders.db`
-- สลิป: `/home/park/SU-STORE/data/order-api/su-order-api/slips/`
+Backend ต้องรองรับหน้าร้านที่ deploy อยู่ปัจจุบันเสมอ เพิ่มของใหม่ได้ แต่จะลบหรือเปลี่ยนความหมายของ field/endpoint ได้ก็ต่อเมื่อหน้าร้านเลิกใช้แล้ว งานที่ต้องแก้สองฝั่งให้ merge backend ก่อน
 
-backup DB ให้ใช้ `sqlite3 orders.db ".backup ..."` ห้าม `cp` เพราะเป็นโหมด WAL ไฟล์ที่ได้อาจไม่ครบ
+## Deploy และข้อมูลปฏิบัติการ
 
-## หลังร้าน
+production ใช้ Docker Compose และ Cloudflare Tunnel รายละเอียด host, SSH, tunnel, secrets และ path ของข้อมูลจริงเก็บไว้ใน skill `deploy` บนเครื่องเจ้าของงาน ไม่เก็บใน repo
 
-- `/admin` (หลังร้านใหม่) ใช้เพิ่มสินค้า ตั้งไซซ์/สี/สต็อก ตรวจสลิป เปลี่ยนสถานะออเดอร์ ดูยอดขาย และเปิด/ปิดหน้าร้าน
-  login ด้วยบัญชีใน `admin_users`
-- admin FP28 ตัวเก่า (`admin.sumfu.xyz`) กับ claim station ยังใช้ดูออเดอร์ FP28 ได้
+สคริปต์ deploy ใช้ `DEPLOY_HOST` และ `DEPLOY_DIR` จาก environment ส่วน Compose ใช้ `SU_STORE_DATA_DIR` สำหรับ bind mount ข้อมูลจริง ตั้งค่าตาม skill `deploy` ก่อนใช้งาน
 
-เลขออเดอร์ร้านใหม่เป็น `SU{ปีเดือน}-{ลำดับ}` เช่น `SU2610-0001` เริ่มนับใหม่ทุกเดือน
-ออเดอร์ FP28 เดิมเป็นแบบ `FP2801501`
-
-## โครงสร้าง
-
-```
-src/
-  app/                 หน้าเว็บกับ API route ของ Next
-  components/
-    store/             หน้าร้าน (ตะกร้า, หน้าสินค้า, checkout, ออเดอร์)
-    admin/             หลังร้าน /admin
-    layout/            Navbar, Footer, ตัวเลือกภาษา
-    ui/                ชิ้นส่วนพื้นฐาน
-    legacy-fp28/       ใช้เฉพาะหน้าเช็กออเดอร์ FP28
-  lib/
-    api/               เรียก order-api (storeApi ฝั่ง server, adminApi ฝั่ง browser)
-    i18n/              ภาษาไทย/อังกฤษ, locale ใน URL
-    theme/             สี, มุมโค้ง, ฟอนต์ที่ตั้งจาก /admin/home
-    rateLimit/         จำกัด request
-    store/             helper ของหน้าร้าน
-    receipt/           วาดใบเสร็จ
-  middleware.ts
-server/
-  order_api.py         จุดเริ่มของ order-api
-  core/                ของที่ใช้ร่วมกัน: config, DB, auth, สลิป, HTTP handler
-  store/               API ร้านใหม่ /v2
-  legacy_fp28/         ระบบ FP28 เดิม (admin เก่า, claim station, จอ display, ขันโตก)
-  tests/
-```
-
-ร้านใหม่ห้าม import อะไรจาก `legacy_fp28` ถ้าต้องใช้ร่วมกันให้ย้ายไปไว้ใน `core/`
-พอเลิกใช้ FP28 แล้วก็ลบ `server/legacy_fp28/`, `src/components/legacy-fp28/` กับหน้า `check-order/fp28` ได้เลย
+ข้อมูล SQLite ที่เปิด WAL ต้องสำรองด้วย `sqlite3 .backup()` ห้ามคัดลอกไฟล์ DB ด้วย `cp` ขณะ API ทำงาน

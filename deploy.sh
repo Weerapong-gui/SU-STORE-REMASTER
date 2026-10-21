@@ -9,7 +9,7 @@
 # Code directories (src/, server/, public/, …) are mirrored exactly, so files deleted in
 # git are deleted on the server too. Server-only files (.env, .env.local, data/, .claude/)
 # live outside those directories and are never touched.
-# Override the target with DEPLOY_HOST=park@192.168.31.242 (LAN) if Tailscale is down.
+# Set DEPLOY_HOST and DEPLOY_DIR from the local deploy skill before running.
 set -euo pipefail
 
 TARGET="${1:-all}"
@@ -20,8 +20,8 @@ case "$TARGET" in
   *) echo "usage: $0 [all|store|api]" >&2; exit 1 ;;
 esac
 
-SERVER="${DEPLOY_HOST:-park@100.94.120.103}"
-REMOTE_DIR="/home/park/SU-STORE"
+SERVER="${DEPLOY_HOST:?Set DEPLOY_HOST using the local deploy skill}"
+REMOTE_DIR="${DEPLOY_DIR:?Set DEPLOY_DIR using the local deploy skill}"
 SSH="ssh -o ConnectTimeout=10 -o BatchMode=yes $SERVER"
 
 cd "$(dirname "$0")"
