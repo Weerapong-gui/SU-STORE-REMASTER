@@ -11,7 +11,8 @@ describe("shared store contract", () => {
     const backendDir = "server/contract";
     if (!existsSync(backendDir)) return;
     const files = readdirSync(backendDir).sort();
-    expect(readdirSync(frontendDir).sort()).toEqual(files);
+    expect(readdirSync(frontendDir).filter(file => file !== "api.d.ts").sort()).toEqual(files);
+    expect(existsSync(`${frontendDir}/api.d.ts`)).toBe(true);
     for (const file of files) {
       expect(readFileSync(`${frontendDir}/${file}`)).toEqual(readFileSync(`${backendDir}/${file}`));
     }
