@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "contract:sync": "node scripts/sync-contract.mjs"
   },
   "dependencies": {
     "@vercel/blob": "^2.3.3",

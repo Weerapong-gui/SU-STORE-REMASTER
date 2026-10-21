@@ -1,5 +1,5 @@
 // Storefront fonts staff can pick in /admin/home. Every family covers Thai and Latin.
-// Ids must match HOME_FONTS in server/store/home.py.
+// Ids must equal homeFonts in the store contract (contract.test.ts checks it).
 
 export type StoreFont = { id: string; name: string; family: string; weights: string; serif?: boolean };
 

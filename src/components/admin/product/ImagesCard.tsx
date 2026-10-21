@@ -5,9 +5,9 @@ import { adminFetch } from "@/lib/api/adminApi";
 import { useConfirm } from "@/components/admin/ConfirmDialog";
 import { Card, useToast } from "@/components/admin/ui";
 import type { StoreProduct } from "@/types/store";
+import contract from "@/contract/store-contract.json";
 
-// Mirrors add_product_image() in server/store/db.py, which keeps the first 10.
-const MAX_IMAGES = 10;
+const MAX_IMAGES = contract.maxProductImages;
 
 // Step 2 of the product editor. Unlike the other steps, image changes save immediately.
 export function ImagesCard({ productId, images, onChange }: {

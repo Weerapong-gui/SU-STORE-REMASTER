@@ -2,8 +2,9 @@
 // variables behind Tailwind's `rounded-*` classes (see tailwind.config.ts). The admin
 // never sets them, so it keeps the default corners.
 
-// Same default as DEFAULT_RADIUS in server/store/home.py.
-export const DEFAULT_RADIUS = 100;
+import contract from "@/contract/store-contract.json";
+
+export const DEFAULT_RADIUS = contract.defaultRadius;
 // Pill buttons (`rounded-full`) shrink from this radius once the setting drops below 100,
 // so they square off gradually instead of staying pills until 0.
 const PILL_BELOW_FULL_REM = 1.5;

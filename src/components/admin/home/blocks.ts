@@ -1,12 +1,11 @@
 import { GalleryHorizontal, LayoutGrid, PanelLeft, Shapes, Star, Type, type LucideIcon } from "lucide-react";
 import type { HeroSlide, HomeBlock, HomeBlockType } from "@/types/store";
+import contract from "@/contract/store-contract.json";
 
-// Block types mirror HOME_BLOCK_TYPES in server/store/home.py: keep the two lists in sync.
-// Limits mirror validate_home() in server/store/home.py (MAX_HOME_BLOCKS, MAX_HERO_SLIDES, MAX_FEATURED, MAX_HOME_CATEGORIES).
-export const MAX_BLOCKS = 20;
-export const MAX_SLIDES = 6;
-export const MAX_FEATURED = 12;
-export const MAX_HOME_CATEGORIES = 12;
+export const MAX_BLOCKS = contract.maxHomeBlocks;
+export const MAX_SLIDES = contract.maxHeroSlides;
+export const MAX_FEATURED = contract.maxFeatured;
+export const MAX_HOME_CATEGORIES = contract.maxHomeCategories;
 
 export const BLOCK_INFO: Record<HomeBlockType, { label: string; icon: LucideIcon; description: string }> = {
   categories: { label: "หมวดหมู่", icon: Shapes, description: "ปกหมวดหมู่สินค้า กดแล้วเข้าไปดูสินค้าในหมวดนั้น เลือกเองได้ว่าจะโชว์หมวดไหน" },

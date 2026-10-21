@@ -8,9 +8,10 @@ import type { IssuedReceipt, OrderStatus, StoreOrder, StoreReceipt } from "@/typ
 import { CancelReceiptDialog } from "./CancelReceiptDialog";
 import { CONTROL } from "./controls";
 import { IssueReceiptDialog, type ReceiptCustomer } from "./IssueReceiptDialog";
+import contract from "@/contract/store-contract.json";
 
 // Statuses the order-api accepts for issuing (server/store receipts rule).
-const ISSUABLE_STATUSES: OrderStatus[] = ["paid", "ready", "completed"];
+const ISSUABLE_STATUSES = contract.receiptIssuableStatuses as OrderStatus[];
 
 type ReceiptsResponse = { receipts: StoreReceipt[]; warning: string | null };
 

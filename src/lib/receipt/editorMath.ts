@@ -1,11 +1,10 @@
 import type { ReceiptField, ReceiptLayout } from "@/types/store";
+import contract from "@/contract/store-contract.json";
 
-// Same viewBox as server/store/templates/receipt_template_v2.svg.
-export const RECEIPT_VIEWBOX = { width: 812.98, height: 597.12 };
-// The server rejects layout numbers outside these bounds (server/store/receipts.py _validate_layout).
-export const LAYOUT_MAX = 1000;
-export const FONT_SIZE_MIN = 4;
-export const FONT_SIZE_MAX = 30;
+export const RECEIPT_VIEWBOX = contract.receiptViewBox;
+export const LAYOUT_MAX = contract.receiptLayoutMax;
+export const FONT_SIZE_MIN = contract.receiptFontSizeMin;
+export const FONT_SIZE_MAX = contract.receiptFontSizeMax;
 export const NUDGE_STEP = 0.5;
 const MIN_SIGNATURE_WIDTH = 10;
 const TEXT_HEIGHT_RATIO = 1.2;

@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, type ReactNode, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import contract from "@/contract/store-contract.json";
 
 // One line per product variant. Price is for display only; the server reprices on order.
 export type CartItem = {
@@ -15,8 +16,8 @@ export type CartItem = {
 
 const STORAGE_KEY = "su-store-cart-v2";
 const CHECKOUT_ID_KEY = "su-store-checkout-id";
-export const MAX_ITEM_QUANTITY = 50;
-export const MAX_CART_LINES = 20; // server: MAX_ITEMS_PER_ORDER
+export const MAX_ITEM_QUANTITY = contract.maxQtyPerItem;
+export const MAX_CART_LINES = contract.maxItemsPerOrder;
 
 type CartContextValue = {
   items: CartItem[];
