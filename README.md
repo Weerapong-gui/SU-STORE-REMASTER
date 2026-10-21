@@ -52,3 +52,5 @@ production ใช้ Docker Compose และ Cloudflare Tunnel รายละ�
 สคริปต์ deploy ใช้ `DEPLOY_HOST` และ `DEPLOY_DIR` จาก environment ส่วน Compose ใช้ `SU_STORE_DATA_DIR` สำหรับ bind mount ข้อมูลจริง ตั้งค่าตาม skill `deploy` ก่อนใช้งาน
 
 ข้อมูล SQLite ที่เปิด WAL ต้องสำรองด้วย `sqlite3 .backup()` ห้ามคัดลอกไฟล์ DB ด้วย `cp` ขณะ API ทำงาน
+
+<!-- ruleset check: PR นี้ปิดทิ้ง ไม่ merge -->
