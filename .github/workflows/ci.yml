@@ -57,6 +57,4 @@ jobs:
         env:
           ORDER_API_DB_PATH: /tmp/su-order-api/orders.db
           ORDER_API_SLIPS_DIR: /tmp/su-order-api/slips
-          ORDER_API_SLIDES_DIR: /tmp/su-order-api/slides
-          ORDER_API_ASSETS_DIR: /tmp/su-order-api/display2_assets
         run: python3 -m pytest server/tests/ -v

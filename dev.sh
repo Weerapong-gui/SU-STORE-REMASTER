@@ -24,14 +24,11 @@ fi
 ORDER_API_HOST=127.0.0.1 \
 ORDER_API_PORT=10000 \
 ORDER_API_DB_PATH="$DEV_DATA/orders.db" \
-ORDER_API_SLIDES_DIR="$DEV_DATA/slides" \
-ORDER_API_ASSETS_DIR="$DEV_DATA/display2_assets" \
 ORDER_API_TOKEN=dev-token \
-BYPASS_TOKEN=dev-bypass \
 PICKUP_PASSWORD=dev \
   "$PY" server/order_api.py &
 API_PID=$!
 trap 'kill $API_PID 2>/dev/null' EXIT
 
-echo "order-api → http://127.0.0.1:10000/admin"
+echo "order-api → http://127.0.0.1:10000/health · หลังร้าน → http://localhost:3000/admin"
 npm run dev
