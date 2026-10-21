@@ -48,4 +48,17 @@ describe("GitHub Actions workflow guard", () => {
       }
     }
   });
+
+  it("builds multi-architecture images", () => {
+    let buildSteps = 0;
+    for (const { file, workflow } of workflows) {
+      const steps = Object.values(workflow.jobs ?? {})
+        .flatMap((job) => (job as { steps?: { uses?: string; with?: { platforms?: string } }[] }).steps ?? []);
+      for (const step of steps.filter(({ uses }) => uses === "docker/build-push-action@v6")) {
+        buildSteps += 1;
+        expect(step.with?.platforms, file).toBe("linux/amd64,linux/arm64");
+      }
+    }
+    expect(buildSteps).toBeGreaterThan(0);
+  });
 });

@@ -1,0 +1,31 @@
+services:
+  su-store-web:
+    image: ghcr.io/weerapong-gui/su-store-web:${WEB_IMAGE_TAG:?WEB_IMAGE_TAG is required}
+    container_name: su-store-web
+    restart: unless-stopped
+    networks:
+      - su-store-net
+    environment:
+      NODE_ENV: production
+      ORDER_API_BASE_URL: http://su-store-api:10000
+      BYPASS_TOKEN: ${BYPASS_TOKEN:-}
+      ALWAYS_OPEN: "${ALWAYS_OPEN:-0}"
+      STAGING_HOST: "${STAGING_HOST:-next.sumfu.store}"
+    volumes:
+      - ${SU_STORE_DATA_DIR:?SU_STORE_DATA_DIR is required}/next-image-cache:/app/.next/cache/images
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+networks:
+  su-store-net:
+    name: su-store-net
+    external: true
