@@ -49,6 +49,15 @@ describe("GitHub Actions workflow guard", () => {
     }
   });
 
+  it("has no backend job left over from the single-repo layout", () => {
+    for (const { file, workflow } of workflows) {
+      const runs = Object.values(workflow.jobs ?? {})
+        .flatMap((job) => (job as { steps?: { run?: string }[] }).steps ?? [])
+        .map((step) => step.run ?? "");
+      expect(runs.filter((run) => /\b(pytest|ruff)\b|server\//.test(run)), file).toEqual([]);
+    }
+  });
+
   it("builds multi-architecture images", () => {
     let buildSteps = 0;
     for (const { file, workflow } of workflows) {

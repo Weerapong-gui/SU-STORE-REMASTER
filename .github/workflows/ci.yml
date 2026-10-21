@@ -6,6 +6,9 @@ on:
   schedule:
     - cron: "0 0 * * *"
 
+permissions:
+  contents: read
+
 jobs:
   frontend:
     name: Frontend lint & tests
@@ -33,29 +36,3 @@ jobs:
 
       - name: Run tests
         run: npm test
-
-  backend:
-    name: Backend lint & tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-
-      - name: Install test tooling
-        # ruff pinned so new upstream rules can't turn CI red on their own.
-        run: pip install pytest ruff==0.16.10
-
-      - name: Lint (ruff, rules in ruff.toml)
-        run: ruff check server
-
-      - name: Run pytest
-        # order_api.py creates its data dirs at import time; point them at a writable
-        # temp location so the module imports on the CI runner (avoids /var/data denial).
-        env:
-          ORDER_API_DB_PATH: /tmp/su-order-api/orders.db
-          ORDER_API_SLIPS_DIR: /tmp/su-order-api/slips
-        run: python3 -m pytest server/tests/ -v
