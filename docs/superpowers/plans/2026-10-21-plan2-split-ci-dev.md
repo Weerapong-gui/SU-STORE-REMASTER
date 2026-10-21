@@ -333,4 +333,26 @@ dev.sh  Dockerfile  scripts/sync-contract.mjs
 
 ## Execution notes
 
-(ผู้ลงมือบันทึกสิ่งที่ข้ามหรือเจอระหว่างทำไว้ตรงนี้)
+- **2026-10-21 Task 1–10 เสร็จ:**
+  - backend `0bc2ab9…36de579`, หน้าร้าน `c8220f8…931118c`
+  - workflow Deploy รอบแรกของทั้งสอง repo: test ✓, image ✓, deploy skipped
+  - image ทั้งสองตัวดึงได้โดยไม่ต้อง login มีทั้ง amd64 และ arm64
+- **Task 1:** หลัง filter-repo เทส 2 ไฟล์ import แบบ `from server.store` ไว้ จึงแก้เป็น `from store` และให้ ruff เรียง import ใหม่ เพราะ `core`/`store` กลายเป็น first-party
+- **Task 3:** `db.create_order()` commit เอง seed จึงแบ่ง commit เป็นหลายช่วงแทนการทำใน transaction เดียว ถ้า seed ค้างครึ่งทางให้ใช้ `./dev.sh reset` · เอา `restart: unless-stopped` ออกจาก compose ของ dev
+- **Task 5:** เขียน `deploy-service.sh` ใหม่
+  - ใช้ `exec 9>lock; flock -w`
+  - เพิ่ม exit `4` = ดึง image ไม่ได้ (นอกแผน)
+  - หลัง rollback รอ health ด้วย
+  - ลบ tag ไม่ได้ก็ไม่ทำให้ deploy แดง
+  - เทสใช้ flock ปลอมที่ lock fd จริง จึงรันบน macOS ได้
+  - `PICKUP_PASSWORD` กลับมาเป็นแบบไม่บังคับ
+- **Task 7:**
+  - `src/` ไม่ได้อ่าน `ORDER_API_TOKEN` จึงไม่ส่งให้หน้าร้าน
+  - เพิ่ม timeout 15 วินาทีให้ fetch contract
+  - job `Backend lint & tests` ใน `ci.yml` ยังค้างอยู่ ทั้ง Codex และผู้รีวิวพลาด เพราะอ่าน diff แค่ส่วนบน แก้ใน PR #2 แล้ว และเพิ่มเทสใน workflow guard
+- **Task 8:** `BYPASS_TOKEN` กลับมาเป็นแบบไม่บังคับ
+- **Task 9:** ยังไม่ได้รัน `./dev.sh` จริง เพราะเครื่องเจ้าของงานไม่มี Docker ต้องลองบนเครื่องเพื่อนหรือเครื่องใหม่ (Step 4)
+- **Task 10:**
+  - หน้าร้านไม่มี bypass จึงต้องให้เพื่อนในทีม approve ทุก PR รวมถึง PR ของเจ้าของงาน
+  - ใช้ PR #1 ทดสอบว่า merge ถูกบล็อก แล้วปิดทิ้ง
+- **ข้อสังเกต:** `2026-10-2x-plan*-codex-prompt.md` มี path `/Users/park/...` ซึ่งเผยแค่ชื่อ user ของ Mac ไม่ใช่ข้อมูล ops
