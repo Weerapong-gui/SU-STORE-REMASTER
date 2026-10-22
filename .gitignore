@@ -14,15 +14,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# python
-__pycache__/
-*.pyc
-
 # superpowers scratch
 .superpowers/
-
-# python venv (local dev)
-.venv/
 
 # build cache
 *.tsbuildinfo

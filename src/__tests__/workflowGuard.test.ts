@@ -50,11 +50,22 @@ describe("GitHub Actions workflow guard", () => {
   });
 
   it("has no backend job left over from the single-repo layout", () => {
+    // `server/` only at the start of a path, so a future `src/server/` folder doesn't trip it.
+    const backendRun = /\b(pytest|ruff)\b|(^|[\s"'=])(\.\/)?server\//;
+    const backendDirectory = /^(\.\/)?server(\/|$)/;
     for (const { file, workflow } of workflows) {
-      const runs = Object.values(workflow.jobs ?? {})
-        .flatMap((job) => (job as { steps?: { run?: string }[] }).steps ?? [])
-        .map((step) => step.run ?? "");
-      expect(runs.filter((run) => /\b(pytest|ruff)\b|server\//.test(run)), file).toEqual([]);
+      const jobs = Object.values(workflow.jobs ?? {}) as {
+        defaults?: { run?: { "working-directory"?: string } };
+        steps?: { run?: string; uses?: string; "working-directory"?: string }[];
+      }[];
+      const steps = jobs.flatMap((job) => job.steps ?? []);
+      const directories = [
+        ...jobs.map((job) => job.defaults?.run?.["working-directory"]),
+        ...steps.map((step) => step["working-directory"]),
+      ];
+      expect(steps.filter((step) => backendRun.test(step.run ?? "")), file).toEqual([]);
+      expect(steps.filter((step) => step.uses?.startsWith("actions/setup-python")), file).toEqual([]);
+      expect(directories.filter((directory) => backendDirectory.test(directory ?? "")), file).toEqual([]);
     }
   });
 
