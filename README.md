@@ -1,21 +1,28 @@
 # SU STORE
 
-เว็บร้านค้าขององค์การนักศึกษา มหาวิทยาลัยแม่ฟ้าหลวง ใช้ Next.js 14 เป็น storefront และเชื่อม Python order-api จาก repo [SU-STORE-SERVER](https://github.com/Weerapong-gui/SU-STORE-SERVER) สำหรับ API/ข้อมูล ร้านใหม่อยู่ใต้ `/v2/` และจัดเก็บข้อมูลในตาราง `store_*`
+**English** · [ภาษาไทย](README.th.md)
 
-## เริ่มใช้งานในเครื่อง
+The online store of the Mae Fah Luang University Student Union ([sumfu.store](https://sumfu.store)). This repo is the Next.js 14 storefront and the staff back office (`/admin`). Data and the API come from the Python order-api in [SU-STORE-SERVER](https://github.com/Weerapong-gui/SU-STORE-SERVER), which serves the store API under `/v2/` and keeps its data in `store_*` tables.
 
-ต้องติดตั้ง Docker Desktop หรือ OrbStack และ Node.js 20 ก่อน
+## Run it locally
+
+You need Docker Desktop or OrbStack, and Node.js 20.
 
 ```bash
 ./dev.sh
 ```
 
-สคริปต์ดึง order-api image จาก GHCR มาเปิดด้วย Docker Compose ใช้ฐานข้อมูลตัวอย่างใน `data/dev/` แล้วเริ่ม Next.js เข้าหน้าร้านที่ `http://localhost:3000` และเข้าหลังร้านที่ `http://localhost:3000/admin` ด้วยบัญชี `staff` / `dev` สำหรับข้อมูลตัวอย่างเท่านั้น
+The script pulls the order-api image from GHCR, starts it with Docker Compose on a sample database in `data/dev/`, then starts Next.js.
 
-เลือก tag ของ backend ได้ด้วย `BACKEND_TAG=<sha> ./dev.sh` (ต้องเป็น image ที่เผยแพร่บน GHCR เช่น tag จาก `main`) และตรวจ contract จาก checkout ในเครื่องได้ด้วย `CONTRACT_DIR=../SU-STORE-SERVER/contract npm run contract:sync -- --check`.
-ใช้ `./dev.sh reset` เพื่อลบฐานข้อมูลตัวอย่างและเริ่มใหม่ โดยสคริปต์จะถามยืนยันก่อน
+- Storefront: `http://localhost:3000`
+- Back office: `http://localhost:3000/admin`, sign in with `staff` / `dev` (sample data only)
 
-## ตรวจสอบ
+Options:
+
+- `BACKEND_TAG=<sha> ./dev.sh` runs a specific backend image (it must be published on GHCR, e.g. a tag from `main`).
+- `./dev.sh reset` deletes the sample database and starts over. It asks before deleting.
+
+## Checks
 
 ```bash
 npm test
@@ -24,31 +31,38 @@ npm run lint
 CONTRACT_DIR=../SU-STORE-SERVER/contract npm run contract:sync -- --check
 ```
 
-## หน้าร้านและหลังร้าน
+## Storefront and back office
 
-- `/admin` ใช้จัดการสินค้า, หมวดหมู่, ออเดอร์, หน้าแรก, การตั้งค่าร้าน และข้อมูลสลิป
-- `/admin/staff` ให้ superadmin เพิ่ม staff, รีเซ็ตรหัสผ่าน, ลบบัญชี และจัดการสิทธิ์ superadmin
-- `/check-order` ค้นหาออเดอร์ร้านด้วยเลขออเดอร์และเบอร์โทร
-- `/check-order/fp28` redirect ไป `https://fp28.sumfu.store/check-order/fp28` เพื่อรองรับลิงก์เดิม
-- สถานะออเดอร์ร้านใหม่: `pending_payment`, `waiting_confirm`, `paid`, `ready`, `completed`, `cancelled` (ดู source ที่ `store/db.py` ของ repo backend)
+- `/admin` manages products, categories, orders, the home page, store settings and payment slips.
+- `/admin/staff` lets a superadmin add staff, reset passwords, delete accounts and grant or remove superadmin.
+- `/check-order` finds a store order by order number and phone number.
+- `/check-order/fp28` redirects to `https://fp28.sumfu.store/check-order/fp28` so old links keep working.
+- Order statuses: `pending_payment`, `waiting_confirm`, `paid`, `ready`, `completed`, `cancelled` (source: `store/db.py` in the backend repo).
 
-## โครงสร้างหลัก
+## Layout
 
 ```text
-src/                 Next.js storefront, admin, proxy routes และ contract copy
-scripts/             เครื่องมือ sync contract จาก backend
+src/        Next.js storefront, admin, proxy routes and the contract copy
+scripts/    tool that syncs the contract from the backend
+public/     static files and fonts
 ```
 
-## Contract และ API compatibility
+## Contract and API compatibility
 
-`contract/` ของ repo backend เป็นแหล่งความจริงสำหรับค่าที่ใช้ร่วมกัน, receipt template และ OpenAPI ส่วนหน้าร้านเก็บสำเนาใน `src/contract/` เมื่อ backend เปลี่ยน contract ให้รัน `npm run contract:sync` จากนั้นตรวจ diff และ commit สำเนาฝั่งหน้าร้านด้วย
+The backend's `contract/` folder is the source of truth for shared constants, the receipt template and the OpenAPI description. This repo keeps a copy in `src/contract/`. When the backend changes the contract, run `npm run contract:sync`, check the diff and commit the copy. CI fails if the copy drifts from the backend's `main`.
 
-Backend ต้องรองรับหน้าร้านที่ deploy อยู่ปัจจุบันเสมอ เพิ่มของใหม่ได้ แต่จะลบหรือเปลี่ยนความหมายของ field/endpoint ได้ก็ต่อเมื่อหน้าร้านเลิกใช้แล้ว งานที่ต้องแก้สองฝั่งให้ merge backend ก่อน
+The backend must always support the storefront that is currently deployed. It may add things, but it may remove a field or endpoint, or change what one means, only after the storefront has stopped using it. For work that touches both sides, merge the backend first.
 
-## Deploy และข้อมูลปฏิบัติการ
+## Deploy
 
-production ใช้ Docker Compose และ Cloudflare Tunnel รายละเอียด host, SSH, tunnel, secrets และ path ของข้อมูลจริงเก็บไว้ใน skill `deploy` บนเครื่องเจ้าของงาน ไม่เก็บใน repo
+Merging into `main` deploys to production:
 
-สคริปต์ deploy ใช้ `DEPLOY_HOST` และ `DEPLOY_DIR` จาก environment ส่วน Compose ใช้ `SU_STORE_DATA_DIR` สำหรับ bind mount ข้อมูลจริง ตั้งค่าตาม skill `deploy` ก่อนใช้งาน
+1. CI runs lint, type checks and tests on every pull request.
+2. After review, the pull request is merged into `main`.
+3. `.github/workflows/deploy.yml` builds a multi-arch image, pushes it to GHCR (tagged with the commit SHA) and deploys it on the production host. If the new container fails its health check, the previous version is restored.
 
-ข้อมูล SQLite ที่เปิด WAL ต้องสำรองด้วย `sqlite3 .backup()` ห้ามคัดลอกไฟล์ DB ด้วย `cp` ขณะ API ทำงาน
+To roll back, run the deploy workflow with an earlier commit: `gh workflow run deploy.yml -f sha=<commit sha>`.
+
+Production runs on Docker Compose behind a Cloudflare Tunnel. Host details, secrets and data paths are kept off this public repo.
+
+The SQLite database runs in WAL mode. Back it up with `sqlite3 .backup()`, never by copying the file with `cp` while the API is running.
